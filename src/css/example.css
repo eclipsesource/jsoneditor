@@ -1,0 +1,33 @@
+.jsf-treeMasterDetail-content {
+  display: flex;
+  flex-direction: row;
+}
+
+.jsf-treeMasterDetail-master {
+  border: 3px;
+  border-right: 0px;
+  border-style: solid;
+  border-color: blue;
+}
+
+.jsf-treeMasterDetail-detail {
+  border: 3px;
+  border-style: solid;
+  border-color: blue;
+}
+
+.jsf-treeMasterDetail-master li {
+  border: 1px;
+  border-style: solid;
+  border-color: black;
+  padding: 5px;
+  margin: 5px;
+}
+
+.jsf-treeMasterDetail-master ul {
+  list-style: none;
+}
+
+.jsf-treeMasterDetail-master li.selected {
+  background-color: rgba(185, 205, 255, 1);
+}
