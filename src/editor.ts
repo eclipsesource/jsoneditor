@@ -1,6 +1,9 @@
 import {DataChangeListener} from 'jsonforms/dist/ts-build/core/data.service';
 import {JsonForms} from 'jsonforms/dist/ts-build/json-forms';
 import {JsonSchema} from 'jsonforms/dist/ts-build/models/jsonSchema';
+import {SchemaExtractor} from './parser/schema_extractor';
+import {ItemModel, MultipleItemModel, DummyModel, ReferenceModel, isItemModel,
+  isMultipleItemModel, isReferenceModel, isDummyModel} from './parser/item_model';
 
 export class JsonEditor extends HTMLElement {
   private master: HTMLElement;
@@ -10,6 +13,9 @@ export class JsonEditor extends HTMLElement {
   private addingToRoot = false;
   private rootData: object;
   private dataSchema: JsonSchema;
+  private parser: SchemaExtractor;
+  private rootModel: ItemModel|MultipleItemModel|ReferenceModel;
+  private connected: boolean;
 
   constructor() {
     super();
@@ -21,24 +27,40 @@ export class JsonEditor extends HTMLElement {
 
   setSchema(dataSchema: JsonSchema): void {
     this.dataSchema = dataSchema;
+    let parser: SchemaExtractor = new SchemaExtractor(dataSchema);
+    parser.extract().then(result => {
+      if (isDummyModel(result) || result === undefined || result === null) {
+        console.log('No valid model could be parsed from the given JsonSchema.');
+        return;
+      }
+      this.rootModel = result;
+      console.log('Parsed Data Schema');
+      this.render();
+    });
   }
+
   connectedCallback(): void {
-    // TODO connectedCallback
+    this.connected = true;
     this.render();
   }
 
   disconnectedCallback(): void {
-    // TODO disconnectedCallback
+    this.connected = false;
   }
 
   private render(): HTMLElement {
+    // Only render if the editor was connected and a data schema set
+    if (!this.connected || this.rootModel === undefined || this.rootModel === null) {
+      return;
+    }
+
     this.className = 'jsf-treeMasterDetail';
 
     // Create header
     const divHeader = document.createElement('div');
     divHeader.className = 'jsf-treeMasterDetail-header';
 
-    // TODO check on schema instead of data
+    // check on schema instead of data
     // Adds a button to add root elements if possible
     // Possible only if there is an array of objects at the root level
     // if (Array.isArray(this.rootData)) {
@@ -49,8 +71,8 @@ export class JsonEditor extends HTMLElement {
     //     const newData = {};
     //     this.addingToRoot = true;
     //     const length = (<Array<object>>this.rootData).push(newData);
-    //     this.expandObject(newData, <HTMLUListElement>this.master.firstChild, this.dataSchema.items,
-    //       toDelete => this.rootData.splice(length - 1, 1));
+    //     this.expandObject(newData, <HTMLUListElement>this.master.firstChild,
+    //       this.dataSchema.items, toDelete => this.rootData.splice(length - 1, 1));
     //     this.addingToRoot = false;
     //   };
     //   divHeader.appendChild(button);
@@ -89,7 +111,7 @@ export class JsonEditor extends HTMLElement {
 
   // Render the tree and select the first element
   private renderFull(): void {
-    this.renderMaster(this.dataSchema);
+    this.renderMaster(this.rootModel);
     this.selectFirstElement();
   }
 
@@ -108,27 +130,54 @@ export class JsonEditor extends HTMLElement {
   }
 
   // Render the tree
-  private renderMaster(schema: JsonSchema): void {
+  private renderMaster(model: ItemModel|MultipleItemModel|ReferenceModel): void {
     if (this.master.lastChild !== null) {
       this.master.removeChild(this.master.lastChild);
     }
     const rootData = this.rootData;
     const ul = document.createElement('ul');
-    if (schema.items !== undefined) {
-      this.expandArray(<Array<object>>rootData, ul, <JsonSchema>schema.items);
-    } else {
-      this.expandObject(rootData, ul, schema, null);
-    }
+
+    const renderModel = (innerModel: ItemModel|MultipleItemModel|ReferenceModel) => {
+      if (isItemModel(innerModel)) {
+        if (innerModel.schema.items !== undefined) {
+          // the items are available as a droppoint with key 'array'
+          this.expandArray(<Array<object>>rootData, ul, innerModel.dropPoints['array']);
+        } else {
+          this.expandObject(rootData, ul, innerModel, null);
+        }
+      } else if (isMultipleItemModel(innerModel)) {
+        // TODO handle multiple item model when necessary
+      } else if (isReferenceModel(innerModel)) {
+          renderModel(innerModel.targetModel);
+      }
+    };
+
+    renderModel(model);
+
     this.master.appendChild(ul);
   }
 
-  private expandArray(data: Array<Object>, parent: HTMLUListElement, schema: JsonSchema): void {
+  private expandArray(data: Array<Object>, parent: HTMLUListElement,
+    model: ItemModel|MultipleItemModel|ReferenceModel): void {
+
     if (data === undefined || data === null) {
       return;
     }
-    data.forEach((element, index) => {
-      this.expandObject(element, parent, schema, toDelete => data.splice(index, 1));
-    });
+    const expandModel = (innerModel: ItemModel|MultipleItemModel|ReferenceModel)  => {
+      let schema;
+      if (isItemModel(model)) {
+        schema = model.schema;
+      } else if (isMultipleItemModel(model)) {
+        // TODO handle multiple item model
+      } else if (isReferenceModel(model)) {
+        expandModel(model.targetModel);
+      }
+      data.forEach((element, index) => {
+        this.expandObject(element, parent, innerModel, toDelete => data.splice(index, 1));
+      });
+    };
+
+    expandModel(model);
   }
 
   private getArrayProperties(schema: JsonSchema): Array<string> {
@@ -145,7 +194,8 @@ export class JsonEditor extends HTMLElement {
     return JSON.stringify;
   }
 
-  private addElement(key: string, data: Object, schema: JsonSchema, li: HTMLLIElement): void {
+  private addElement(key: string, data: Object, model: ItemModel|MultipleItemModel|ReferenceModel,
+    li: HTMLLIElement): void {
     if (data[key] === undefined) {
       data[key] = [];
     }
@@ -160,12 +210,28 @@ export class JsonEditor extends HTMLElement {
       childParent = document.createElement('ul');
       li.appendChild(childParent);
     }
-    this.expandObject(newData, childParent, schema.properties[key].items,
-      toDelete => childArray.splice(length - 1, 1));
+
+    const expandHelper = (targetModel) => {
+      if (isItemModel(targetModel)) {
+        this.expandObject(newData, childParent, targetModel.dropPoints[key],
+          toDelete => childArray.splice(length - 1, 1));
+      } else if (isMultipleItemModel(targetModel)) {
+        // TODO multiple item model
+      } else if (isReferenceModel(targetModel)) {
+        expandHelper(targetModel.targetModel);
+      }
+    };
+    expandHelper(model);
   }
 
-  private expandObject(data: Object, parent: HTMLUListElement, schema: JsonSchema,
-      deleteFunction: (element: Object) => void): void {
+  private expandObject(data: Object, parent: HTMLUListElement,
+    model: ItemModel|MultipleItemModel|ReferenceModel,
+//    schema: JsonSchema,
+    deleteFunction: (element: Object) => void): void {
+
+   // TODO use model instead of schema for called methods
+    let schema: JsonSchema = this.extractSchemaFromModel(model);
+
     const li = document.createElement('li');
     const div = document.createElement('div');
     const span = document.createElement('span');
@@ -188,7 +254,7 @@ export class JsonEditor extends HTMLElement {
           const button = document.createElement('button');
           button.innerText = key;
           button.onclick = () => {
-            this.addElement(key, data, schema, li);
+            this.addElement(key, data, model, li);
             this.dialog.close();
           };
           content.appendChild(button);
@@ -216,11 +282,43 @@ export class JsonEditor extends HTMLElement {
 
     Object.keys(data).forEach(key => {
       if (Array.isArray(data[key])) {
-        this.renderChildren(data[key], schema.properties[key].items, li, key);
+        const renderHelper = (targetModel) => {
+          if (isItemModel(targetModel)) {
+            this.renderChildren(data[key], targetModel.dropPoints[key] , li, key);
+          } else if (isMultipleItemModel(targetModel)) {
+            // TODO multiple item model
+          } else if (isReferenceModel(targetModel)) {
+            renderHelper(targetModel.targetModel);
+          }
+        };
+        renderHelper(model);
       }
     });
 
     parent.appendChild(li);
+  }
+
+  private executeOnTargetModel(model: ItemModel|MultipleItemModel|ReferenceModel,
+    executeFunction: (targetModel: ItemModel|MultipleItemModel|ReferenceModel) => void): void {
+
+    if (isItemModel(model)) {
+      executeFunction(model);
+    } else if (isMultipleItemModel(model)) {
+      // TODO handle multiple item model when necessary
+    } else if (isReferenceModel(model)) {
+        executeFunction(model.targetModel);
+    }
+  }
+
+  private extractSchemaFromModel(model: ItemModel|MultipleItemModel|ReferenceModel): JsonSchema {
+    if (isItemModel(model)) {
+      return model.schema;
+    } else if (isMultipleItemModel(model)) {
+      // TODO multiple item model
+      return undefined;
+    } else if (isReferenceModel(model)) {
+      return this.extractSchemaFromModel(model.targetModel);
+    }
   }
 
   private findRendererChildContainer(li: HTMLLIElement, key: string): HTMLUListElement {
@@ -235,8 +333,8 @@ export class JsonEditor extends HTMLElement {
     return ul;
   }
 
-  private renderChildren
-    (array: Array<Object>, schema: JsonSchema, li: HTMLLIElement, key: string): void {
+  private renderChildren(array: Array<Object>, model: ItemModel|MultipleItemModel|ReferenceModel,
+      li: HTMLLIElement, key: string): void {
     let ul: HTMLUListElement = this.findRendererChildContainer(li, key);
     if (ul === undefined) {
       ul = document.createElement('ul');
@@ -247,7 +345,7 @@ export class JsonEditor extends HTMLElement {
         (<Element>ul.firstChild).remove();
       }
     }
-    this.expandArray(array, ul, schema);
+    this.expandArray(array, ul, model);
   }
 
   /*
