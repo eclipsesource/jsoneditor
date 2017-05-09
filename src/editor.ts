@@ -12,7 +12,7 @@ export class JsonEditor extends HTMLElement {
   private dialog;
   private addingToRoot = false;
   private rootData: object;
-  private dataSchema: JsonSchema;
+  // private dataSchema: JsonSchema;
   private parser: SchemaExtractor;
   private rootModel: ItemModel|MultipleItemModel|ReferenceModel;
   private connected: boolean;
@@ -26,7 +26,6 @@ export class JsonEditor extends HTMLElement {
   }
 
   setSchema(dataSchema: JsonSchema): void {
-    this.dataSchema = dataSchema;
     let parser: SchemaExtractor = new SchemaExtractor(dataSchema);
     parser.extract().then(result => {
       if (isDummyModel(result) || result === undefined || result === null) {
@@ -34,7 +33,7 @@ export class JsonEditor extends HTMLElement {
         return;
       }
       this.rootModel = result;
-      console.log('Parsed Data Schema');
+      console.log('Successfully parsed JSON schema');
       this.render();
     });
   }
@@ -119,13 +118,23 @@ export class JsonEditor extends HTMLElement {
   private selectFirstElement(): void {
     const arrayData = this.rootData;
     if (arrayData !== undefined && arrayData !== null) {
-      let firstChild = arrayData;
-      let schema = this.dataSchema;
-      if (Array.isArray(firstChild)) {
-        firstChild = firstChild[0];
-        schema = schema.items;
-      }
-      this.renderDetail(firstChild, <HTMLLIElement>this.master.firstChild.firstChild, schema);
+      const helper = (innerModel: ItemModel|MultipleItemModel|ReferenceModel) => {
+        if (isItemModel(innerModel)) {
+          let firstChild = arrayData;
+          let schema = innerModel.schema;
+          if (Array.isArray(firstChild)) {
+            firstChild = firstChild[0];
+            schema = schema.items;
+          }
+          this.renderDetail(firstChild, <HTMLLIElement>this.master.firstChild.firstChild, schema);
+        } else if (isMultipleItemModel(innerModel)) {
+          // TODO selectFirstElement for MultipleItemModel
+        } else if (isReferenceModel(innerModel)) {
+          helper(innerModel.targetModel);
+        }
+      };
+
+      helper(this.rootModel);
     }
   }
 
@@ -180,20 +189,48 @@ export class JsonEditor extends HTMLElement {
     expandModel(model);
   }
 
-  private getArrayProperties(schema: JsonSchema): Array<string> {
-    return Object.keys(schema.properties).filter(key => schema.properties[key].items !== undefined
-      && schema.properties[key].items['type'] === 'object');
+  /**
+  * Returns the names of all properties of type array.
+  */
+  private getArrayProperties(model: ItemModel|MultipleItemModel|ReferenceModel): Array<string> {
+    if (isItemModel(model)) {
+      return Object.keys(model.dropPoints);
+    } else if (isMultipleItemModel(model)) {
+      // TODO get array properties for MultipleItemModel
+      return undefined;
+    } else if (isReferenceModel(model)) {
+      return this.getArrayProperties(model.targetModel);
+    }
+    // return Object.keys(schema.properties).filter(key =>
+    //   schema.properties[key].items !== undefined
+    //   && schema.properties[key].items['type'] === 'object');
   }
 
-  // Returns a function that produces a name for an object
-  private getNamingFunction(schema: JsonSchema): (element: Object) => string {
-    const namingKeys = Object.keys(schema.properties).filter(key => key === 'id' || key === 'name');
-    if (namingKeys.length !== 0) {
-      return (element) => element[namingKeys[0]];
+  /**
+   * Returns a function that produces a name for a data object
+   * defined by the given model
+   */
+  private getNamingFunction(model: ItemModel|MultipleItemModel|ReferenceModel)
+    : (element: Object) => string {
+    if (isItemModel(model)) {
+      if (model.schema.properties !== undefined && model.schema.properties !== null) {
+        const namingKeys = Object.keys(model.schema.properties)
+          .filter(key => key === 'id' || key === 'name' || key === 'identifier');
+        if (namingKeys !== undefined && namingKeys !== null && namingKeys.length !== 0) {
+          return (element) => element[namingKeys[0]];
+        }
+      }
+      return (element) => model.label + JSON.stringify(element);
+    } else if (isReferenceModel(model)) {
+      return this.getNamingFunction(model.targetModel);
     }
     return JSON.stringify;
   }
 
+  /**
+   * Adds a new element for the property key to the object data.
+   * model is the parsed schema object for data.
+   */
   private addElement(key: string, data: Object, model: ItemModel|MultipleItemModel|ReferenceModel,
     li: HTMLLIElement): void {
     if (data[key] === undefined) {
@@ -224,24 +261,27 @@ export class JsonEditor extends HTMLElement {
     expandHelper(model);
   }
 
+  /**
+   * Renders the given data object as a child of the parent.
+   */
   private expandObject(data: Object, parent: HTMLUListElement,
     model: ItemModel|MultipleItemModel|ReferenceModel,
 //    schema: JsonSchema,
     deleteFunction: (element: Object) => void): void {
 
-   // TODO use model instead of schema for called methods
-    let schema: JsonSchema = this.extractSchemaFromModel(model);
 
     const li = document.createElement('li');
     const div = document.createElement('div');
     const span = document.createElement('span');
     span.classList.add('label');
+    let schema: JsonSchema = this.extractSchemaFromModel(model);
     span.onclick = (ev: Event) => this.renderDetail(data, li, schema);
     const spanText = document.createElement('span');
-    spanText.textContent = this.getNamingFunction(schema)(data);
+    spanText.classList.add('jse-tree-element-text');
+    spanText.textContent = this.getNamingFunction(model)(data);
     span.appendChild(spanText);
     div.appendChild(span);
-    if (this.getArrayProperties(schema).length !== 0) {
+    if (this.getArrayProperties(model).length !== 0) {
       const spanAdd = document.createElement('span');
       spanAdd.classList.add('add');
       spanAdd.onclick = (ev: Event) => {
@@ -250,7 +290,7 @@ export class JsonEditor extends HTMLElement {
         while (content.firstChild) {
           (<Element>content.firstChild).remove();
         }
-        this.getArrayProperties(schema).forEach(key => {
+        this.getArrayProperties(model).forEach(key => {
           const button = document.createElement('button');
           button.innerText = key;
           button.onclick = () => {

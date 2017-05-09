@@ -4,7 +4,9 @@ import  './editor';
 import  {JsonEditor} from './editor';
 // import {data} from './resource/sampledata';
 // import {schema} from './resource/metaschema';
-import {data, schema} from './resource/dummy';
+// import {data, schema} from './resource/dummy';
+import {schema} from './resource/metaschema';
+import {data} from './resource/sampledata';
 
 window.onload = () => {
   // const jsonForms = <JsonForms> document.createElement('json-forms');

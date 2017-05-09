@@ -31,3 +31,9 @@
 .jsf-treeMasterDetail-master li.selected {
   background-color: rgba(185, 205, 255, 1);
 }
+
+.label .jse-tree-element-text {
+  float: left;
+  min-width: 30px;
+  min-height: 10px;
+}
