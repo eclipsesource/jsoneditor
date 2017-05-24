@@ -17,11 +17,7 @@
 }
 
 .jsf-treeMasterDetail-master li {
-  border: 1px;
-  border-style: solid;
-  border-color: black;
-  padding: 5px;
-  margin: 5px;
+
 }
 
 .jsf-treeMasterDetail-master ul {
@@ -29,11 +25,53 @@
 }
 
 .jsf-treeMasterDetail-master li.selected {
-  background-color: rgba(185, 205, 255, 1);
+
+}
+
+.jsf-treeMasterDetail-master li > div {
+  border-width: thin;
+  border-style: solid;
+  border-radius: 0.2em;
+  border-color: black;
+  padding: 0.25em;
+  margin-top: 0.25em;
+}
+
+.jsf-treeMasterDetail-master li > div:hover {
+  background-color: rgb(205, 205, 205);
+  font-weight: normal;
+}
+
+.jsf-treeMasterDetail-master li.selected > div {
+  background-color: rgba(235, 235, 235, 1);
+  border-width: medium;
+  /*border-style: solid;
+  border-color: black;*/
+  /*padding: 0.25em;
+  margin-top: 0.25em;*/
 }
 
 .label .jse-tree-element-text {
   float: left;
-  min-width: 30px;
-  min-height: 10px;
+  min-width: 2em;
+  min-height: 1em;
+}
+
+.jsf-treeMasterDetail-master li > div:hover > .label > .add, .jsf-treeMasterDetail-master li > div:hover > .label > .remove {
+  display: flex;
+  justify-content: center;
+}
+
+/* Override CSS from jsonforms-example */
+.jsf-treeMasterDetail-master li::before, .jsf-treeMasterDetail-master li::after, .jsf-treeMasterDetail-master ul::after {
+  border: none;
+}
+
+.jsf-treeMasterDetail-master li > div > .label:hover {
+  background-color: inherit;
+  font-weight: normal;
+}
+
+.jsf-treeMasterDetail-master li.selected > div > .label {
+  font-weight: normal;
 }
