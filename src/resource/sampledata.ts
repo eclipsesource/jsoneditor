@@ -15,6 +15,10 @@ export const data = {
               "Rooms": []
             }
           ]
+        },
+        {
+          "name": "Block1.2",
+          "Floors": []
         }
       ],
       "Floors": []
