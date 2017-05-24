@@ -19,7 +19,7 @@ export class SchemaExtractor {
       return new Promise<ItemModel|MultipleItemModel|null|DummyModel|ReferenceModel>
       ((resolve, reject) => {
         const result = this.parse('root', this.schema, true);
-        this.cleanUp();
+        this.cleanUp(result);
         resolve(result);
       });
     });
@@ -47,11 +47,17 @@ export class SchemaExtractor {
   //     });
   //   });
   // }
-  private cleanUp(): void {
+  private cleanUp(rootResult: ItemModel|MultipleItemModel|DummyModel|ReferenceModel): void {
     Object.keys(this.addedRefs).forEach(ref => {
       const model = this.addedRefs[ref];
       if (isItemModel(model)) {
-        model.schema = retrieveResolvableSchema(this.schema, ref);
+        const resolvedSchema = retrieveResolvableSchema(this.schema, ref);
+        model.schema = resolvedSchema;
+        if (model !== rootResult) {
+          if (resolvedSchema.type === 'array' || resolvedSchema.items !== undefined) {
+            model.schema = resolvedSchema.items;
+          }
+        }
       }
     });
   }
@@ -61,16 +67,33 @@ export class SchemaExtractor {
       schema.type === 'integer' || schema.type === 'boolean')) {
       return null;
     }
-    if (schema['links'] !== undefined && schema['links'].length === 1) {
-      const links = schema['links'][0];
-      let targetModel = undefined;
-      if (links['targetSchema'] !== undefined) {
-        targetModel = this.handleReference(links['targetSchema'], root);
-      }
-      return {href: links['href'], targetModel: targetModel,
-        label: property, schema: schema } as ReferenceModel;
-    }
     const result = {label: property, schema: schema, dropPoints: {}}; // , fullschema: this.schema
+    if (schema['links'] !== undefined) {
+      const links = schema['links'];
+      if (links.length === 1 && Object.keys(schema.properties).length === 1) {
+        let targetModel = undefined;
+        const link = links[0];
+        if (link['targetSchema'] !== undefined) {
+          targetModel = this.handleReference(link['targetSchema'], root);
+        }
+        return {href: link['href'], targetModel: targetModel,
+        label: property, schema: schema } as ReferenceModel;
+      }
+      links.forEach(link => {
+        let targetModel = undefined;
+        if (link['targetSchema'] !== undefined) {
+          targetModel = this.handleReference(link['targetSchema'], root);
+        }
+        const hrefSegments = link['href'].split('/');
+        // the variable is the last
+        const variable = hrefSegments[hrefSegments.length - 1];
+        const key = variable.substring(1, variable.length - 1);
+
+        const refModel = {href: link['href'], targetModel: targetModel,
+          label: key, schema: schema.properties[key] } as ReferenceModel;
+        result.dropPoints[key] = refModel;
+      });
+    }
     if (schema.type === 'array' || schema.hasOwnProperty('items')) {
       const itemSchema = schema.items;
       if (!(itemSchema instanceof Array)) {
