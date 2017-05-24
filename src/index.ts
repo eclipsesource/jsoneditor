@@ -2,11 +2,12 @@ import 'jsonforms';
 // import {JsonForms} from 'jsonforms/dist/ts-build/json-forms';
 import  './editor';
 import  {JsonEditor} from './editor';
-// import {data} from './resource/sampledata';
-// import {schema} from './resource/metaschema';
-// import {data, schema} from './resource/dummy';
-import {schema} from './resource/metaschema';
 import {data} from './resource/sampledata';
+// import {schema_no_refs as schema} from './resource/metaschema';
+import {schema} from './resource/metaschema';
+// import {data, schema} from './resource/dummy';
+// import {schema} from './resource/minimal_array_ref';
+// import {data} from './resource/minimal_array_ref';
 
 window.onload = () => {
   // const jsonForms = <JsonForms> document.createElement('json-forms');
