@@ -61,6 +61,17 @@ export class SchemaExtractor {
       }
     });
   }
+
+  /**
+  * Parses the property with the given name from the given JsonSchema.
+  * If the property is a simple property (e.g. a string, number, etc.) it is ignored.
+  * For object properties, an ItemModel is created.
+  * References are resolved and an ItemModel is created, too.
+  * Links are resolved to a ReferenceModel.
+  * The parsing works recursively and child properties of the current schema
+  * are parsed, too.
+  * TODO update documentation
+  */
   private parse(property: string, schema: JsonSchema, root: boolean):
     ItemModel|MultipleItemModel|null|DummyModel|ReferenceModel {
     if (schema['links'] === undefined && (schema.type === 'string' || schema.type === 'number' ||
@@ -68,6 +79,12 @@ export class SchemaExtractor {
       return null;
     }
     const result = {label: property, schema: schema, dropPoints: {}}; // , fullschema: this.schema
+
+    // Resolve and parse links to external schemata:
+    // If there is only one link: get the linked schema, create a ReferenceModel,
+    // and return it instead of the current result model
+    // If there are multiple links: Create a droppoint for each one in the current
+    // ItemModel.
     if (schema['links'] !== undefined) {
       const links = schema['links'];
       if (links.length === 1 && Object.keys(schema.properties).length === 1) {
@@ -94,6 +111,11 @@ export class SchemaExtractor {
         result.dropPoints[key] = refModel;
       });
     }
+
+    // If the schema is of type array and only allows one item type (no tuples),
+    // the schema defining the array items (schema.items) is parsed
+    // and returned - except if the current element is the root element.
+    // In this case, the property is added as a drop point to the root result.
     if (schema.type === 'array' || schema.hasOwnProperty('items')) {
       const itemSchema = schema.items;
       if (!(itemSchema instanceof Array)) {
@@ -106,6 +128,11 @@ export class SchemaExtractor {
         }
       }
     }
+
+    // Create an ItemModel for schemas of type object.
+    // Parse every property of the schema and add a droppoint, if a model is returned.
+    // If the schema is not the root and has additionalProperties of type object,
+    // parse this object and return it instead of the current result
     if (schema.type === 'object') {
       if (schema.properties !== undefined) {
         Object.keys(schema.properties).forEach(key => {
@@ -115,6 +142,9 @@ export class SchemaExtractor {
           }
         });
       }
+      // TODO: potential problem when there are normal and additionalProperties?
+      // normal properties could be disregarded, as additionalProperties if case
+      // returns the inner droppoint and disregards the result
       if (schema.additionalProperties !== undefined &&
         typeof schema.additionalProperties === 'object') {
         const inner = this.parse(root ? 'object' : property, schema.additionalProperties, false);
@@ -126,9 +156,15 @@ export class SchemaExtractor {
         }
       }
     }
+
+    // If the schema references another element: resolve it and return the resulting model
     if (schema.$ref !== undefined) {
       return this.handleReference(schema.$ref, root);
     }
+
+    // If the schema defines the anyOf property, create a MultipleItemModel,
+    // parse the schemas of the anyOf options and add the resulting models
+    // to the MultipleItemModel
     if (schema.anyOf !== undefined) {
       const current = {models: [], type: MULTIPLICITY_TYPES.ANY_OF};
       schema.anyOf.forEach(inner => {
@@ -139,12 +175,23 @@ export class SchemaExtractor {
     return result;
   }
 
+  /**
+  * Resolves a reference to its type name and JsonSchema.
+  */
   private resovleLocalRef(ref: string): {name: string, schema: JsonSchema} {
     const name = ref.substr(ref.lastIndexOf('/') + 1);
     const refSchema = this.$refs.get(ref);
     // const refSchema = this.$refs[ref];
     return {name: name, schema: refSchema};
   }
+
+  /**
+  * If the reference has already been resolved before in the parsing process,
+  * return the existing model.
+  * Otherwise, get the schema associated with the reference and parse the schema to a model.
+  * Save the model in case the same reference occurs again to avoid multiple parsings
+  * and to allow endless recursion(?).
+  */
   private handleReference(ref: string, root: boolean):
     ItemModel|DummyModel|ReferenceModel|MultipleItemModel {
     if (!this.addedRefs.hasOwnProperty(ref)) {
