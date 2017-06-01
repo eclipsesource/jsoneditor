@@ -58,8 +58,8 @@
 }
 
 .jsf-treeMasterDetail-master li > div:hover > .label > .add, .jsf-treeMasterDetail-master li > div:hover > .label > .remove {
-  display: flex;
-  justify-content: center;
+  /*display: flex;
+  justify-content: flex-start;*/
 }
 
 /* Override CSS from jsonforms-example */
