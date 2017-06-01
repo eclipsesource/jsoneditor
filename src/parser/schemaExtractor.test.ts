@@ -636,7 +636,7 @@ test('support object with array $ref', t => {
       });
     });
 });
-test.only('self-contained child schemata: no recursion', t => {
+test.only('self-contained child schemata: no recursion, ref to other type', t => {
   const schema = {
     definitions: {
       person: {
@@ -723,6 +723,177 @@ test.only('self-contained child schemata: no recursion', t => {
         }
       }
     });
+  });
+});
+test.only('self-contained child schemata: only self recursion', t => {
+  const schema = {
+    definitions: {
+      person: {
+        type: 'object',
+        properties: {
+          children: {
+            type: 'array',
+            items: {$ref: '#/definitions/person'}
+          }
+        }
+      }
+    },
+    type: 'object',
+    properties: {
+      persons: {
+        type: 'array',
+        items: {$ref: '#/definitions/person'}
+      }
+    }
+  } as JsonSchema;
+
+  // define the recursive and self-contained person drop point
+  const personModel = {
+    label: 'person',
+    schema: {
+      type: 'object',
+      properties: {
+        children: {
+          type: 'array',
+          // reference to root because it's a self reference
+          items: {$ref: '#'}
+        }
+      }
+    },
+    dropPoints: {}
+  }
+  personModel.dropPoints['children'] = personModel;
+
+  // define the expected result using the recursive person drop point
+  const expectedResult = {
+    label: 'root',
+    schema: {
+      definitions: {
+        person: {
+          type: 'object',
+          properties: {
+            children: {
+              type: 'array',
+              items: {$ref: '#/definitions/person'}
+            }
+          }
+        }
+      },
+      type: 'object',
+      properties: {
+        persons: {
+          type: 'array',
+          items: {$ref: '#/definitions/person'}
+        }
+      }
+    },
+    dropPoints: {
+      persons: personModel
+    }
+  }
+
+  const extractor = new SchemaExtractor(schema);
+  return extractor.extract().then(result => {
+    t.true(isItemModel(result));
+    t.deepEqual(result, expectedResult);
+  });
+});
+test.only('self contained child schemata: cross recursion', t => {
+  const schema = {
+    definitions: {
+      person: {
+        type: 'object',
+        properties: {
+          robots: {
+            type: 'array',
+            items: {$ref: '#/definitions/robot'}
+          }
+        }
+      },
+      robot: {
+        type: 'object',
+        properties: {
+          humans: {
+            type: 'array',
+            items: {$ref: '#/definitions/person'}
+          }
+        }
+      }
+    },
+    type: 'object',
+    properties: {
+      persons: {type: 'array', items: {$ref: '#/definitions/person'}}
+    }
+  } as JsonSchema;
+
+  // define person item model
+  const personModel = {
+    label: 'person',
+    schema: {
+      definitions: {
+        robot: {
+          type: 'object',
+          properties: {
+            humans: {
+              type: 'array',
+              items: {$ref: '#'}
+            }
+          }
+        }
+      },
+      type: 'object',
+      properties: {
+        robots: {
+          type: 'array',
+          items: {$ref: '#/definitions/robot'}
+        }
+      }
+    },
+    dropPoints: {}
+  }
+
+  // define robot item model
+  const robotModel = {
+    label: 'robot',
+    schema: {
+      definitions: {
+        person: {
+          type: 'object',
+          properties: {
+            robots: {
+              type: 'array',
+              items: {$ref: '#'}
+            }
+          }
+        }
+      },
+      type: 'object',
+      properties: {
+        humans: {
+          type: 'array',
+          items: {$ref: '#/definitions/person'}
+        }
+      }
+    },
+    dropPoints: {}
+  }
+
+  // add recursive models
+  personModel.dropPoints['robots'] = robotModel;
+  robotModel.dropPoints['humans'] = personModel;
+
+  const expectedResult = {
+    label: 'root',
+    schema: schema,
+    dropPoints: {
+      'persons': personModel
+    }
+  }
+
+  const extractor = new SchemaExtractor(schema);
+  return extractor.extract().then(result => {
+    t.true(isItemModel(result));
+    t.deepEqual(result, expectedResult);
   });
 });
 // test.only('resolve ref with ref to self-contained child schemata: ', t => {
