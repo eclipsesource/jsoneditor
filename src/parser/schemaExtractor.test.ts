@@ -884,7 +884,32 @@ test.only('self contained child schemata: cross recursion', t => {
 
   const expectedResult = {
     label: 'root',
-    schema: schema,
+    schema: {
+      definitions: {
+        person: {
+          type: 'object',
+          properties: {
+            robots: {
+              type: 'array',
+              items: {$ref: '#/definitions/robot'}
+            }
+          }
+        },
+        robot: {
+          type: 'object',
+          properties: {
+            humans: {
+              type: 'array',
+              items: {$ref: '#/definitions/person'}
+            }
+          }
+        }
+      },
+      type: 'object',
+      properties: {
+        persons: {type: 'array', items: {$ref: '#/definitions/person'}}
+      }
+    },
     dropPoints: {
       'persons': personModel
     }
