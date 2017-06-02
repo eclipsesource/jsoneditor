@@ -1,8 +1,9 @@
 import {JsonSchema} from 'jsonforms/dist/ts-build/models/jsonSchema';
-import { ItemModel, MultipleItemModel, DummyModel, ReferenceModel, MULTIPLICITY_TYPES, isItemModel}
+import { ItemModel, MultipleItemModel, DummyModel, ReferenceModel, MULTIPLICITY_TYPES, isItemModel, isDummyModel}
   from './item_model';
-import {retrieveResolvableSchema} from 'jsonforms/dist/ts-build/path.util';
+import {retrieveResolvableSchema, resolveSchema, findAllRefs, ReferenceSchemaMap} from 'jsonforms/dist/ts-build/path.util';
 import * as SchemaRefParser from 'json-schema-ref-parser';
+import {deepCopy, extractSchemaFromModel} from './../util';
 // import * as JSONRefs from 'json-refs';
 
 export class SchemaExtractor {
@@ -48,18 +49,55 @@ export class SchemaExtractor {
   //   });
   // }
   private cleanUp(rootResult: ItemModel|MultipleItemModel|DummyModel|ReferenceModel): void {
+    // Make referenced models self-contained
     Object.keys(this.addedRefs).forEach(ref => {
       const model = this.addedRefs[ref];
-      if (isItemModel(model)) {
-        const resolvedSchema = retrieveResolvableSchema(this.schema, ref);
-        model.schema = resolvedSchema;
-        if (model !== rootResult) {
-          if (resolvedSchema.type === 'array' || resolvedSchema.items !== undefined) {
-            model.schema = resolvedSchema.items;
-          }
-        }
+      if (!isItemModel(model)) {
+        return;
       }
+      const refSchema = model.schema;
+      this.selfContainSchema(refSchema, refSchema, ref);
     });
+  }
+
+  /**
+  * Makes the given JsonSchema self-contained. This means all referenced definitions
+  * are contained in the schema's definitions block and references equal to
+  * outerReference are set to root ('#').
+  *
+  * @param schema The current schema to make self contained
+  * @param outerSchema The root schema to which missing definitions are added
+  * @param outerReference The reference which is considered to be self ('#')
+  * @param includedDefs The list of definitions which were already added to the outer schema
+  */
+  private selfContainSchema(schema: JsonSchema, outerSchema: JsonSchema,
+    outerReference: string, includedDefs: Array<string> = []): void {
+      // Step 1: get all used references
+      const allInnerRefs = findAllRefs(schema);
+      Object.keys(allInnerRefs).forEach(innerRef => {
+        // Step 2: recognize refs to outer self and set to '#'
+        if (innerRef === outerReference) {
+          if (allInnerRefs[innerRef] !== undefined) {
+            allInnerRefs[innerRef].$ref = '#';
+          }
+          return;
+        }
+        // Step 3: add definitions for non-existant refs to definitions block
+        if (includedDefs.indexOf(innerRef) > -1) {
+          // definition was already added to schema
+          return;
+        }
+        // get a copy of the referenced type's schema
+        const resolved = this.resovleLocalRef(innerRef);
+        const definitionSchema = deepCopy(resolved.schema);
+        if (outerSchema.definitions === undefined ||outerSchema.definitions === null) {
+          outerSchema.definitions = {};
+        }
+        outerSchema.definitions[resolved.name] = definitionSchema;
+        includedDefs.push(innerRef);
+        // Step 4: recursively self-contain added definition
+        this.selfContainSchema(definitionSchema, outerSchema, outerReference, includedDefs);
+      });
   }
 
   /**
@@ -199,7 +237,14 @@ export class SchemaExtractor {
       const wrapper = this.resovleLocalRef(ref);
       const realValue = this.parse(wrapper.name, wrapper.schema, root);
       const tempValue = this.addedRefs[ref];
-      Object.keys(realValue).forEach(key => tempValue[key] = realValue[key]);
+      Object.keys(realValue).forEach(key => {
+        // deep copy schema
+        if (key === 'schema') {
+          tempValue[key] = deepCopy(realValue[key]);
+        } else {
+          tempValue[key] = realValue[key]
+        }
+      });
     }
     return this.addedRefs[ref];
   }
