@@ -21,18 +21,7 @@ export const schema = {
       'type': 'string'
     },
     'Floors': {
-      'type': 'array',
-      'items': {
-        'type': 'object',
-        'properties': {
-          'name': {
-            'type': 'string'
-          },
-          'description': {
-            'type': 'string'
-          }
-        }
-      }
+      $ref: '#/definitions/Floor'
     }
   }
 };
