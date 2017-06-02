@@ -4,6 +4,7 @@ import {JsonSchema} from 'jsonforms/dist/ts-build/models/jsonSchema';
 import {SchemaExtractor} from './parser/schema_extractor';
 import {ItemModel, MultipleItemModel, DummyModel, ReferenceModel, isItemModel,
   isMultipleItemModel, isReferenceModel, isDummyModel} from './parser/item_model';
+import {extractSchemaFromModel} from './util';
 
 export class JsonEditor extends HTMLElement {
   private master: HTMLElement;
@@ -274,7 +275,7 @@ export class JsonEditor extends HTMLElement {
     const div = document.createElement('div');
     const span = document.createElement('span');
     span.classList.add('label');
-    let schema: JsonSchema = this.extractSchemaFromModel(model);
+    let schema: JsonSchema = extractSchemaFromModel(model);
     span.onclick = (ev: Event) => this.renderDetail(data, li, schema);
     const spanText = document.createElement('span');
     spanText.classList.add('jse-tree-element-text');
@@ -347,17 +348,6 @@ export class JsonEditor extends HTMLElement {
       // TODO handle multiple item model when necessary
     } else if (isReferenceModel(model)) {
         executeFunction(model.targetModel);
-    }
-  }
-
-  private extractSchemaFromModel(model: ItemModel|MultipleItemModel|ReferenceModel): JsonSchema {
-    if (isItemModel(model)) {
-      return model.schema;
-    } else if (isMultipleItemModel(model)) {
-      // TODO multiple item model
-      return undefined;
-    } else if (isReferenceModel(model)) {
-      return this.extractSchemaFromModel(model.targetModel);
     }
   }
 
