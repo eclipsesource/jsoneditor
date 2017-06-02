@@ -3,7 +3,11 @@ export const schema = {
         a: {
             type: "object",
             properties: {
-                recursion: {$ref: "#/definitions/a"}
+                name: {type: 'string'},
+                recursion: {
+                  type: 'array',
+                  items: {'$ref': '#/definitions/a'}
+                }
             }
         }
     },
@@ -13,14 +17,21 @@ export const schema = {
             type: 'string'
         },
         a: {
+          type: 'array',
+          items: {
             $ref: '#/definitions/a'
+          }
         }
     }
 }
 
 export const data = {
     name: 'RecursiveData',
-    a: {
-        recursion : {}
-    }
+    a: [{
+        name: '1.1',
+        recursion : [
+          {name: '2.1', recursion: []},
+          {name: '2.2', recursion: []}
+        ]
+    }]
 }
