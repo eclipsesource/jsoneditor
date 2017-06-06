@@ -230,7 +230,7 @@ export class JsonEditor extends HTMLElement {
 
   /**
    * Adds a new element for the property key to the object data.
-   * model is the parsed schema object for data.
+   *
    * @param key The property that the new element is added to
    * @param data The data object that the new element is added to
    * @param model The model representing the type of the element to add
