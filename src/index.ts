@@ -8,7 +8,8 @@ import  {JsonEditor} from './editor';
 // import {schema} from './resource/metaschema';
 // import {data, schema} from './resource/dummy';
 // import {data, schema} from './resource/minimal_array_ref';
-import {schema, data} from './resource/recursion';
+// import {schema, data} from './resource/recursion';
+import {schema, data} from './resource/ecore_schema';
 
 window.onload = () => {
   // const jsonForms = <JsonForms> document.createElement('json-forms');

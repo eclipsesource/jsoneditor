@@ -1,0 +1,13 @@
+Array-Refs: work
+
+schema with no-refs, only cascaded in root: works
+
+schema with referenced 'types' and types defined cascaded in schema root:
+rendering (with jsonforms) of referenced types works.
+rendering of cascaded types does not work:
+the schema given to jsonforms is not self-contained:
+It was not made self-contained with own definitions during the clean up.
+
+self recursion (from recursion.ts):
+rendering of the root does not work because the schema of the droppoint for the cascaded property
+that references the recursive type is not self-contained when it's "cut out" of the root schema
