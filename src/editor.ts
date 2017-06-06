@@ -273,7 +273,6 @@ export class JsonEditor extends HTMLElement {
 //    schema: JsonSchema,
     deleteFunction: (element: Object) => void): void {
 
-
     const li = document.createElement('li');
     const div = document.createElement('div');
     const span = document.createElement('span');
@@ -310,11 +309,9 @@ export class JsonEditor extends HTMLElement {
                 this.dialog.close();
               };
               content.appendChild(button);
-            }
-            if (isMultipleItemModel(buttonModel)) {
+            } else if (isMultipleItemModel(buttonModel)) {
               buttonModel.models.forEach(m => addButtons(m, true));
-            }
-            if (isReferenceModel(buttonModel)) {
+            } else if (isReferenceModel(buttonModel)) {
               addButtons(buttonModel.targetModel, multi);
             }
           };
