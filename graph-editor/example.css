@@ -1,0 +1,26 @@
+body {
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow:  hidden;
+  font-family: 'Roboto', sans-serif;
+}
+#saveData {
+  min-height: 1.5em;
+}
+#properties > json-forms {
+  width: 100%;
+}
+svg {
+  width: 3000px !important;
+  height: 3000px !important;
+}
+.joint-theme-default.joint-paper{
+  overflow: auto;
+  height: auto !important;
+  width: auto !important;
+}
+json-graph{
+  width: 100vw;
+  height: calc(100vh - 20px);
+}

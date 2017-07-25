@@ -1,17 +1,11 @@
-var webpack = require('webpack');
-var path = require("path");
-var copyWebpackPlugin = require("copy-webpack-plugin");
+const path = require("path");
+const webpack = require('webpack');
 
 module.exports = {
-    entry: [
-        'webpack-dev-server/client?http://localhost:8081',
-        'webpack/hot/dev-server',
-        './src/index.ts'
-    ],
+    entry: './graph-editor/index.ts',
     output: {
       path: path.resolve("./", "dist"),
-      publicPath: "/assets/",
-      filename: "bundle_ecore.js"
+      filename: "jsongraph_ecore.js"
     },
 
     // Enable sourcemaps for debugging webpack's output.
@@ -21,17 +15,28 @@ module.exports = {
         // Add '.ts' as resolvable extensions.
         extensions: [".ts", ".js"]
     },
-    devServer: {
-        contentBase: ['./src','./icons'],
-        port: 8081
-    },
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new copyWebpackPlugin([
-            {from: './node_modules/jsonforms/lib/native-shim.js'},
-            {from: './node_modules/jsonforms/dist/jsonforms-example.css'},
-            {from: './Roboto-Regular.ttf'}
-        ])
+    //   new webpack.LoaderOptionsPlugin({
+    //    minimize: true,
+    //    debug: false
+    //  }),
+    //  new webpack.optimize.UglifyJsPlugin({
+    //    compress: {
+    //      warnings: false,
+    //      screw_ie8: true,
+    //      conditionals: true,
+    //      unused: true,
+    //      comparisons: true,
+    //      sequences: true,
+    //      dead_code: true,
+    //      evaluate: true,
+    //      if_return: true,
+    //      join_vars: true,
+    //    },
+    //    output: {
+    //      comments: false,
+    //    },
+    //  })
     ],
     module: {
       rules: [

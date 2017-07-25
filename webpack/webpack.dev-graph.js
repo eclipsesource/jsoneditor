@@ -4,14 +4,14 @@ var copyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
     entry: [
-        'webpack-dev-server/client?http://localhost:8081',
+        'webpack-dev-server/client?http://localhost:8082',
         'webpack/hot/dev-server',
-        './src/index.ts'
+        './graph-editor/index.ts'
     ],
     output: {
       path: path.resolve("./", "dist"),
       publicPath: "/assets/",
-      filename: "bundle_ecore.js"
+      filename: "bundle_graph.js"
     },
 
     // Enable sourcemaps for debugging webpack's output.
@@ -22,13 +22,15 @@ module.exports = {
         extensions: [".ts", ".js"]
     },
     devServer: {
-        contentBase: ['./src','./icons'],
-        port: 8081
+        contentBase: ['./graph-editor','./icons'],
+        port: 8082
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new copyWebpackPlugin([
             {from: './node_modules/jsonforms/lib/native-shim.js'},
+            { from: 'node_modules/jointjs/dist/joint.min.css'},
+            {from: './node_modules/jsongraph/dist/jsongraph-example.css'},
             {from: './node_modules/jsonforms/dist/jsonforms-example.css'},
             {from: './Roboto-Regular.ttf'}
         ])

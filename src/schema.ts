@@ -1,7 +1,8 @@
-export const schema = {
+export const ecore_schema =
+{
   definitions: {
     annotation: {
-      id: '#annotation',
+      id:'#annotation',
       'type': 'object',
       'properties': {
         'eClass': {
@@ -20,7 +21,7 @@ export const schema = {
       'additionalProperties': false
     },
     enum: {
-      id: '#enum',
+      id:'#enum',
       'type': 'object',
       'properties': {
         'eClass': {
@@ -58,7 +59,7 @@ export const schema = {
       'additionalProperties': false
     },
     datatype: {
-      id: '#datatype',
+      id:'#datatype',
       'type': 'object',
       'properties': {
         'eClass': {
@@ -91,7 +92,7 @@ export const schema = {
     },
     eclass: {
       'type': 'object',
-      id: '#class',
+      id:'#class',
       'properties': {
         'eClass': {
           'type': 'string',
@@ -128,7 +129,7 @@ export const schema = {
         'eOperations': {
           'type': 'array',
           'items': {
-            id: '#operation',
+            id:'#operation',
             'type': 'object',
             'properties': {
               'eClass': {
@@ -173,6 +174,7 @@ export const schema = {
               'eTypeParameters': {
                 'type': 'array',
                 'items': {
+                  'id': '#typeparameter',
                   'type': 'object',
                   'properties': {
                     'eClass': {
@@ -191,6 +193,7 @@ export const schema = {
               'eParameters': {
                 'type': 'array',
                 'items': {
+                  'id': '#parameter',
                   'type': 'object',
                   'properties': {
                     'eClass': {
@@ -289,7 +292,7 @@ export const schema = {
       'additionalProperties': false
     },
     attribute: {
-      id: '#attribute',
+      id:'#attribute',
       'type': 'object',
       'properties': {
         'eClass': {
@@ -355,20 +358,12 @@ export const schema = {
             }
           },
           'additionalProperties': false
-        },
-        'eOpposite': {
-          'type': 'object',
-          'properties': {
-            '$ref': {
-              'type': 'string'
-            }
-          },
-          'additionalProperties': false
         }
       },
       'additionalProperties': false
     },
     reference: {
+      'id': '#reference',
       'type': 'object',
       'properties': {
         'eClass': {
@@ -449,7 +444,7 @@ export const schema = {
     }
   },
   'type': 'object',
-  id: '#package',
+  id:'#package',
   'properties': {
     'eClass': {
       'type': 'string',
@@ -481,5 +476,3 @@ export const schema = {
   },
   'additionalProperties': false
 };
-
-export const data = {};
