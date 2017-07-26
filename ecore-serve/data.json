@@ -4,7 +4,7 @@
     "eClassifiers": [
       {
         "eClass": "http://www.eclipse.org/emf/2002/Ecore#//EClass",
-        "name": "B",
+        "name": "A",
         "eStructuralFeatures": [
           {
             "eClass": "http://www.eclipse.org/emf/2002/Ecore#//EAttribute",
@@ -12,39 +12,10 @@
             "name": "a1"
           },
           {
-            "eClass": "http://www.eclipse.org/emf/2002/Ecore#//EReference",
-            "name": "r1"
-          },
-          {
             "eClass": "http://www.eclipse.org/emf/2002/Ecore#//EAttribute",
             "eType": {},
             "name": "a2"
-          }
-        ],
-        "eOperations": [
-          {
-            "name": "o1",
-            "eTypeParameters": [
-              {
-                "name": "tp1"
-              }
-            ],
-            "eParameters": [
-              {
-                "eGenericType": {
-                  "eClassifier": {}
-                },
-                "name": "p1",
-                "eTypeArguments": []
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "eClass": "http://www.eclipse.org/emf/2002/Ecore#//EClass",
-        "name": "A",
-        "eStructuralFeatures": [
+          },
           {
             "eClass": "http://www.eclipse.org/emf/2002/Ecore#//EAttribute",
             "eType": {},
@@ -52,28 +23,34 @@
           },
           {
             "eClass": "http://www.eclipse.org/emf/2002/Ecore#//EReference",
-            "name": "r2"
+            "name": "r1"
+          }
+        ],
+        "eOperations": [
+          {
+            "eClass": "o1"
           },
+          {
+            "name": "o1"
+          }
+        ]
+      },
+      {
+        "eClass": "http://www.eclipse.org/emf/2002/Ecore#//EClass",
+        "name": "B",
+        "eStructuralFeatures": [
           {
             "eClass": "http://www.eclipse.org/emf/2002/Ecore#//EAttribute",
             "eType": {},
             "name": "a4"
           },
           {
-            "eClass": "http://www.eclipse.org/emf/2002/Ecore#//EAttribute",
-            "eType": {},
-            "name": "a5"
-          }
-        ],
-        "eOperations": [
+            "eClass": "http://www.eclipse.org/emf/2002/Ecore#//EReference",
+            "name": "r2"
+          },
           {
-            "eTypeParameters": [],
-            "name": "o2"
-          }
-        ],
-        "eAnnotations": [
-          {
-            "source": "aaaa"
+            "eClass": "http://www.eclipse.org/emf/2002/Ecore#//EReference",
+            "name": "r3"
           }
         ]
       }

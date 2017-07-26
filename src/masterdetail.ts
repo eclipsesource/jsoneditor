@@ -1,5 +1,5 @@
-import {ControlElement} from 'jsonforms';
-export const masterDetail ={
+import { MasterDetailLayout } from 'jsonforms';
+export const masterDetail: MasterDetailLayout = {
   'type': 'MasterDetailLayout',
   'scope': {
     '$ref': '#'
@@ -15,10 +15,10 @@ export const masterDetail ={
       '#reference': 'name',
       '#typeparameter': 'name',
       '#class': 'name',
-      '#attribute':'name',
+      '#attribute': 'name',
       '#operation': 'name',
-      "#task": 'name',
-      "#user": 'name'
+      '#task': 'name',
+      '#user': 'name'
     },
     'imageProvider': {
       '#datatype': 'datatype',
@@ -29,7 +29,7 @@ export const masterDetail ={
       '#reference': 'reference',
       '#typeparameter': 'typeparameter',
       '#class': 'class',
-      '#attribute':'attribute',
+      '#attribute': 'attribute',
       '#operation': 'operation',
       '#annotation': 'annotation'
     },
@@ -44,4 +44,4 @@ export const masterDetail ={
       }
     }
   }
-} as ControlElement;
+};
