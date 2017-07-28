@@ -8,6 +8,8 @@ import { JsonForms } from 'jsonforms';
 import { imageProvider, labelProvider, modelMapping } from './ecore-config';
 import * as Ajv from 'ajv';
 
+export * from './jsoneditor';
+
 const xhttp = new XMLHttpRequest();
 xhttp.onreadystatechange = function() {
   if (this.readyState === 4 && this.status === 200) {
