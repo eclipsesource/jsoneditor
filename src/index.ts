@@ -101,6 +101,11 @@ window.onload = () => {
      editor.data = {};
      document.body.appendChild(editor);
 
+     const exportButton = document.getElementById('export-data-button') as HTMLButtonElement;
+     exportButton.onclick = () => {
+       prompt('Model Data', JSON.stringify(editor.data, null, 2));
+     };
+
      // button triggering the hidden input element - only activate after schemas was loaded
      const uploadButton = document.getElementById('upload-data-button');
      uploadButton.onclick = () => {
