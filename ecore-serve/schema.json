@@ -354,24 +354,16 @@
           "type": "boolean"
         },
         "eType": {
-          "type": "object",
-          "properties": {
-            "$ref": {
-              "type": "string",
-              "enum": [
-                "http://www.eclipse.org/emf/2002/Ecore#//EBoolean",
-                "http://www.eclipse.org/emf/2002/Ecore#//EString",
-                "http://www.eclipse.org/emf/2002/Ecore#//EDate",
-                "http://www.eclipse.org/emf/2002/Ecore#//EInt",
-                "http://www.eclipse.org/emf/2002/Ecore#//EDouble",
-                "//Gender",
-                "//Nationality",
-                "//DateOfBirth"
-              ]
-            }
-          }
+          "type": "string"
         }
       },
+      "links": [{
+        "rel": "full",
+        "href": "#/eClassifiers/{eType}",
+        "targetSchema": {
+          "$ref": "#/definitions/datatype"
+        }
+      }],
       "additionalProperties": false
     },
     "reference": {
