@@ -1,7 +1,6 @@
 /* tslint:disable:no-invalid-this */
 import * as _ from 'lodash';
-import 'jsonforms';
-// import './link.renderer';
+import './ereference.renderer';
 import './jsoneditor';
 import { JsonEditor } from './jsoneditor';
 import { JsonForms } from 'jsonforms';
@@ -13,13 +12,14 @@ export * from './jsoneditor';
 const xhttp = new XMLHttpRequest();
 xhttp.onreadystatechange = function() {
   if (this.readyState === 4 && this.status === 200) {
-   const uischemas = JSON.parse(this.responseText);
-   register(uischemas.attribute_view, 'http://www.eclipse.org/emf/2002/Ecore#//EAttribute');
-   register(uischemas.eclass_view, 'http://www.eclipse.org/emf/2002/Ecore#//EClass');
-   register(uischemas.datatype_view, 'http://www.eclipse.org/emf/2002/Ecore#//EDataType');
-   register(uischemas.enum_view, 'http://www.eclipse.org/emf/2002/Ecore#//EEnum');
-   register(uischemas.epackage_view, 'http://www.eclipse.org/emf/2002/Ecore#//EPackage');
-   register(uischemas.reference_view, 'http://www.eclipse.org/emf/2002/Ecore#//EReference');
+    const uischemas = JSON.parse(this.responseText);
+
+    register(uischemas.attribute_view, 'http://www.eclipse.org/emf/2002/Ecore#//EAttribute');
+    register(uischemas.eclass_view, 'http://www.eclipse.org/emf/2002/Ecore#//EClass');
+    register(uischemas.datatype_view, 'http://www.eclipse.org/emf/2002/Ecore#//EDataType');
+    register(uischemas.enum_view, 'http://www.eclipse.org/emf/2002/Ecore#//EEnum');
+    register(uischemas.epackage_view, 'http://www.eclipse.org/emf/2002/Ecore#//EPackage');
+    register(uischemas.reference_view, 'http://www.eclipse.org/emf/2002/Ecore#//EReference');
 
   }
 };
@@ -79,6 +79,8 @@ const fileInputHandler = editor => evt => {
   reader.readAsText(file);
 };
 
+export const globalData = {}
+
 window.onload = () => {
   const editor = document.createElement('json-editor') as JsonEditor;
 
@@ -97,20 +99,22 @@ window.onload = () => {
   const xhttp2 = new XMLHttpRequest();
   xhttp2.onreadystatechange = function() {
     if (this.readyState === 4 && this.status === 200) {
-     editor.schema = JSON.parse(this.responseText);
-     editor.data = {};
-     document.body.appendChild(editor);
+      const schema = JSON.parse(this.responseText);
+      editor.schema = schema;
+      JsonForms.config.setIdentifyingProp("_id");
+      editor.data = globalData;
+      document.body.appendChild(editor);
 
-     const exportButton = document.getElementById('export-data-button') as HTMLButtonElement;
-     exportButton.onclick = () => {
-       prompt('Model Data', JSON.stringify(editor.data, null, 2));
-     };
+      const exportButton = document.getElementById('export-data-button') as HTMLButtonElement;
+      exportButton.onclick = () => {
+        prompt('Model Data', JSON.stringify(editor.data, null, 2));
+      };
 
-     // button triggering the hidden input element - only activate after schemas was loaded
-     const uploadButton = document.getElementById('upload-data-button');
-     uploadButton.onclick = () => {
-       fileInput.click();
-     };
+      // button triggering the hidden input element - only activate after schemas was loaded
+      const uploadButton = document.getElementById('upload-data-button');
+      uploadButton.onclick = () => {
+        fileInput.click();
+      };
     }
   };
   xhttp2.open('GET', 'http://localhost:3001/schema.json', true);

@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "ajv": "^5.2.2",
+    "bootstrap": "^3.3.7",
     "jsonforms": "next",
     "lodash": "^4.17.4"
   },
