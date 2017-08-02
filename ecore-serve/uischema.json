@@ -185,6 +185,9 @@
             "type": "Control",
             "scope": {
               "$ref": "#/properties/eType"
+            },
+            "options": {
+              "id": "eReference"
             }
           },
           {
