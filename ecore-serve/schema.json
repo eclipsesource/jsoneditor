@@ -17,7 +17,9 @@
       "links": [{
         "rel": "full",
         "href": "#/eClassifiers/{id}",
-        "targetSchema": "#/definitions/eClassifier"
+        "targetSchema": {
+          "$ref": "#/definitions/eClassifier"
+        }
       }],
       "additionalProperties": false
     },
@@ -438,14 +440,15 @@
           "additionalProperties": false
         },
         "eType": {
-          "type": "integer",
-          "minimum": 0
+          "type": "string"
         }
       },
       "links": [{
         "rel": "full",
         "href": "#/eClassifiers/{eType}",
-        "targetSchema": "#/definitions/eclass"
+        "targetSchema": {
+          "$ref": "#/definitions/eclass"
+        }
       }],
       "additionalProperties": false
     }

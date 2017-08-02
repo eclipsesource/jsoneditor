@@ -1,4 +1,5 @@
 import {
+  JsonForms,
   JsonFormsElement,
   JsonSchema,
   MasterDetailLayout
@@ -94,6 +95,7 @@ export class JsonEditor extends HTMLElement {
    * in order to determine which type objects of a "anyOf-property" belong to.
    */
   setModelMapping(modelMapping: ModelMapping): void {
+    JsonForms.modelMapping = modelMapping;
     this.masterDetail.options.modelMapping = modelMapping;
   }
 
