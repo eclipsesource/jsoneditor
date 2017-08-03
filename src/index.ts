@@ -9,6 +9,7 @@ import { imageProvider, labelProvider, modelMapping } from './ecore-config';
 import * as Ajv from 'ajv';
 
 export * from './jsoneditor';
+export * from '../ecore-editor/ecore-editor';
 
 const xhttp = new XMLHttpRequest();
 xhttp.onreadystatechange = function() {
