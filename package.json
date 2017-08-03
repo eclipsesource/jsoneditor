@@ -16,6 +16,7 @@
     "dev": "webpack --config webpack/webpack.dev.js && webpack-dev-server --config webpack/webpack.dev.js --env=dev --inline",
     "dev-graph": "webpack --config webpack/webpack.dev-graph.js && webpack-dev-server --config webpack/webpack.dev-graph.js --env=dev --inline",
     "bundle": "webpack --config webpack/webpack.build.js --env=production --display-error-details",
+    "bundle-ecore": "webpack --config webpack/webpack.build-ecore-editor.js --env=production --display-error-details",
     "bundle-graph": "webpack --config webpack/webpack.build-graph.js --env=production --display-error-details",
     "build": "npm run tsc && npm run bundle && ncp src/example.css dist/example.css",
     "serve_schemas": "npm-run-all --parallel _serve_schema  _serve_data",

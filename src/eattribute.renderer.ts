@@ -11,7 +11,7 @@ import {
   uiTypeIs,
 } from 'jsonforms';
 import { ETypeControl } from './etype.renderer';
-import { globalData } from './index';
+import { EcoreEditor } from './../ecore-editor/ecore-editor';
 
 const identifyingProperty = '_id';
 const labelProperty = 'name';
@@ -55,7 +55,7 @@ class EAttributeControl extends ETypeControl {
     const eTypeRefProp: ReferenceProperty =
       _.head(JsonForms.schemaService.getReferenceProperties(eReferenceSchema));
 
-    const referencees = eTypeRefProp.findReferenceTargets(globalData);
+    const referencees = eTypeRefProp.findReferenceTargets(EcoreEditor.dataObject);
 
     referencees.forEach((referencee, index) => {
       const option = document.createElement('option');
