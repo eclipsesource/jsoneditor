@@ -31,7 +31,7 @@ module.exports = {
       {from: './node_modules/jsonforms/lib/native-shim.js'},
       {from: './node_modules/jsonforms/dist/jsonforms-example.css'},
       {from: './Roboto-Regular.ttf'},
-      {from: './node_modules/bootstrap/dist/css/bootstrap.css'}
+      {from: './src/jsoneditor.css'}
     ])
   ],
   module: {
