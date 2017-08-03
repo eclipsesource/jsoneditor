@@ -27,19 +27,15 @@
         "type": "HorizontalLayout",
         "elements": [
         {
-          "type": "Label",
-          "text": "Bounds"
-        },
-        {
           "type": "Control",
-          "label": false,
+          "label": "Lower Bound",
           "scope": {
           "$ref": "#/properties/lowerBound"
           }
         },
         {
           "type": "Control",
-          "label": false,
+          "label": "Upper Bound",
           "scope": {
           "$ref": "#/properties/upperBound"
           }
