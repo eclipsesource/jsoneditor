@@ -9,7 +9,6 @@ import {
   rankWith, ReferenceProperty, schemaTypeIs,
   uiTypeIs,
 } from 'jsonforms';
-import { globalData } from './index';
 
 export abstract class ETypeControl extends BaseControl<HTMLSelectElement> {
 

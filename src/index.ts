@@ -4,6 +4,7 @@ import './ereference.renderer';
 import './eattribute.renderer';
 import './jsoneditor';
 import './ecore-editor';
+import { EcoreEditor } from './ecore-editor';
 import { JsonEditor } from './jsoneditor';
 import { JsonForms } from 'jsonforms';
 import { imageProvider, labelProvider, modelMapping } from './ecore-config';
@@ -11,30 +12,6 @@ import * as Ajv from 'ajv';
 
 export * from './jsoneditor';
 export * from './ecore-editor';
-
-const xhttp = new XMLHttpRequest();
-xhttp.onreadystatechange = function() {
-  if (this.readyState === 4 && this.status === 200) {
-    const uischemas = JSON.parse(this.responseText);
-
-    register(uischemas.attribute_view, 'http://www.eclipse.org/emf/2002/Ecore#//EAttribute');
-    register(uischemas.eclass_view, 'http://www.eclipse.org/emf/2002/Ecore#//EClass');
-    register(uischemas.datatype_view, 'http://www.eclipse.org/emf/2002/Ecore#//EDataType');
-    register(uischemas.enum_view, 'http://www.eclipse.org/emf/2002/Ecore#//EEnum');
-    register(uischemas.epackage_view, 'http://www.eclipse.org/emf/2002/Ecore#//EPackage');
-    register(uischemas.reference_view, 'http://www.eclipse.org/emf/2002/Ecore#//EReference');
-
-  }
-};
-xhttp.open('GET', 'http://localhost:3001/uischema.json', true);
-xhttp.send();
-
-// method to register ui schemas
-const register = (uischema, uri) => {
-  JsonForms.uischemaRegistry.register(uischema, (schema, data) =>
-    data.eClass === uri || schema.properties !== undefined && schema.properties.eClass !== undefined
-    && schema.properties.eClass.default === uri ? 2 : -1);
-};
 
 /*
  * Handler for a file input change event.
@@ -70,7 +47,6 @@ const fileInputHandler = editor => evt => {
       const valid = ajv.validate(editor.schema, readData);
       if (valid) {
         editor.data = readData;
-        globalData = readData;
       } else {
         alert('Loaded data does not adhere to the specified schema.');
         console.error('Loaded data does not adhere to the specified schema.');
@@ -83,11 +59,8 @@ const fileInputHandler = editor => evt => {
   reader.readAsText(file);
 };
 
-// TODO: remove global data object
-export let globalData = {};
-
 window.onload = () => {
-  const editor = document.createElement('json-editor') as JsonEditor;
+  const editor = document.createElement('ecore-editor') as EcoreEditor;
 
   // create hidden file input element
   const fileInput = document.createElement('input') as HTMLInputElement;
@@ -95,34 +68,17 @@ window.onload = () => {
   fileInput.style.display = 'none';
   fileInput.addEventListener('change', fileInputHandler(editor));
 
-  // configure editor with labels, icons, and model mappings
-  editor.setLabelMapping(labelProvider);
-  editor.setImageMapping(imageProvider);
-  editor.setModelMapping(modelMapping);
-
-  // load schema from REST service. Activate load data button after it has been loaded
-  const xhttp2 = new XMLHttpRequest();
-  xhttp2.onreadystatechange = function() {
-    if (this.readyState === 4 && this.status === 200) {
-      const schema = JSON.parse(this.responseText);
-      editor.schema = schema;
-      JsonForms.config.setIdentifyingProp('_id');
-      editor.data = globalData;
-      document.body.appendChild(editor);
-
-      const exportButton = document.getElementById('export-data-button') as HTMLButtonElement;
-      exportButton.onclick = () => {
-        prompt('Model Data', JSON.stringify(editor.data, null, 2));
-      };
-
-      // button triggering the hidden input element - only activate after schemas was loaded
-      const uploadButton = document.getElementById('upload-data-button');
-      uploadButton.onclick = () => {
-        fileInput.click();
-      };
-    }
+  const exportButton = document.getElementById('export-data-button') as HTMLButtonElement;
+  exportButton.onclick = () => {
+    prompt('Model Data', JSON.stringify(editor.data, null, 2));
   };
-  xhttp2.open('GET', 'http://localhost:3001/schema.json', true);
-  // xhttp.open("GET", "http://localhost:3001/task.schema.json", true);
-  xhttp2.send();
+
+  // button triggering the hidden input element - only activate after schemas was loaded
+  const uploadButton = document.getElementById('upload-data-button');
+  uploadButton.onclick = () => {
+    fileInput.click();
+  };
+
+  editor.data = {};
+  document.body.appendChild(editor);
 };

@@ -1,5 +1,5 @@
 /* tslint:disable:no-invalid-this */
-import { JsonForms } from 'jsonforms';
+import { JsonForms, JsonSchema } from 'jsonforms';
 import './jsoneditor';
 import './ereference.renderer';
 import './eattribute.renderer';
@@ -32,6 +32,13 @@ export class EcoreEditor extends HTMLElement {
     return EcoreEditor.dataObject;
   }
 
+  get schema(): JsonSchema {
+    if (this.editor !== undefined && this.editor !== null) {
+      return this.editor.schema;
+    }
+
+    return undefined;
+  }
   private registerUiSchemas(): void {
     const callback = uischemas => {
       register(uischemas.attribute_view, 'http://www.eclipse.org/emf/2002/Ecore#//EAttribute');
