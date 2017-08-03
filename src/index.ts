@@ -1,6 +1,7 @@
 /* tslint:disable:no-invalid-this */
 import * as _ from 'lodash';
 import './ereference.renderer';
+import './eattribute.renderer';
 import './jsoneditor';
 import { JsonEditor } from './jsoneditor';
 import { JsonForms } from 'jsonforms';

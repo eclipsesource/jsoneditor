@@ -16,22 +16,41 @@ import { globalData } from './index';
 const identifyingProperty = '_id';
 const labelProperty = 'name';
 
-export const eReferenceRendererTester: RankedTester =
+export const eAttributeRendererTester: RankedTester =
   rankWith(
     3,
     and(
       uiTypeIs('Control'),
-      optionIs('id', 'eReference')
+      optionIs('id', 'eAttribute')
     )
   );
 
 @JsonFormsRenderer({
-  selector: 'jsonforms-ereference-control',
-  tester: eReferenceRendererTester
+  selector: 'jsonforms-eattribute-control',
+  tester: eAttributeRendererTester
 })
-class EReferenceControl extends ETypeControl {
+class EAttributeControl extends ETypeControl {
+
+  private standardDatatypes = [
+    'http://www.eclipse.org/emf/2002/Ecore#//EBoolean',
+    'http://www.eclipse.org/emf/2002/Ecore#//EString',
+    'http://www.eclipse.org/emf/2002/Ecore#//EDate',
+    'http://www.eclipse.org/emf/2002/Ecore#//EInt',
+    'http://www.eclipse.org/emf/2002/Ecore#//EDouble',
+  ];
 
   protected addOptions(input) {
+    // add standard emf datatypes
+    this.standardDatatypes.forEach((datatype, index) => {
+      const option = document.createElement('option');
+      option.value = datatype;
+      option.label = datatype;
+
+      console.log('datatype option', option);
+      input.appendChild(option);
+    });
+
+    // add datatypes defined in model
     const eReferenceSchema = this.dataSchema;
     const eTypeRefProp: ReferenceProperty =
       _.head(JsonForms.schemaService.getReferenceProperties(eReferenceSchema));

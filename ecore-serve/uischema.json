@@ -17,8 +17,11 @@
         "type": "Control",
         "label": "E Type",
         "scope": {
-        "$ref": "#/properties/eType/properties/$ref"
-        }
+          "$ref": "#/properties/eType"
+         },
+         "options": {
+           "id": "eAttribute"
+         }
       },
       {
         "type": "HorizontalLayout",
