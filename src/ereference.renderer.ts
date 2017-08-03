@@ -11,7 +11,7 @@ import {
   uiTypeIs,
 } from 'jsonforms';
 import { ETypeControl } from './etype.renderer';
-import { EcoreEditor } from './../ecore-editor/ecore-editor';
+import { EcoreEditor } from '././ecore-editor';
 
 const identifyingProperty = '_id';
 const labelProperty = 'name';

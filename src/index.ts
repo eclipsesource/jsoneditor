@@ -3,13 +3,14 @@ import * as _ from 'lodash';
 import './ereference.renderer';
 import './eattribute.renderer';
 import './jsoneditor';
+import './ecore-editor';
 import { JsonEditor } from './jsoneditor';
 import { JsonForms } from 'jsonforms';
 import { imageProvider, labelProvider, modelMapping } from './ecore-config';
 import * as Ajv from 'ajv';
 
 export * from './jsoneditor';
-export * from '../ecore-editor/ecore-editor';
+export * from './ecore-editor';
 
 const xhttp = new XMLHttpRequest();
 xhttp.onreadystatechange = function() {
@@ -105,7 +106,7 @@ window.onload = () => {
     if (this.readyState === 4 && this.status === 200) {
       const schema = JSON.parse(this.responseText);
       editor.schema = schema;
-      JsonForms.config.setIdentifyingProp("_id");
+      JsonForms.config.setIdentifyingProp('_id');
       editor.data = globalData;
       document.body.appendChild(editor);
 

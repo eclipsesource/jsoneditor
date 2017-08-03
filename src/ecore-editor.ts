@@ -1,10 +1,10 @@
 /* tslint:disable:no-invalid-this */
 import { JsonForms } from 'jsonforms';
-import '../src/jsoneditor';
-import '../src/ereference.renderer';
-import '../src/eattribute.renderer';
-import { JsonEditor } from '../src/jsoneditor';
-import { imageProvider, labelProvider, modelMapping } from './../src/ecore-config';
+import './jsoneditor';
+import './ereference.renderer';
+import './eattribute.renderer';
+import { JsonEditor } from './jsoneditor';
+import { imageProvider, labelProvider, modelMapping } from './ecore-config';
 
 export class EcoreEditor extends HTMLElement {
   // FIXME: no static data object
@@ -26,6 +26,10 @@ export class EcoreEditor extends HTMLElement {
   set data(data: Object) {
     EcoreEditor.dataObject = data;
     this.render();
+  }
+
+  get data(): Object {
+    return EcoreEditor.dataObject;
   }
 
   private registerUiSchemas(): void {
@@ -89,8 +93,9 @@ export class EcoreEditor extends HTMLElement {
     this.registerUiSchemas();
     this.configureSchema();
 
-    JsonForms.config.setIdentifyingProp('id');
+    JsonForms.config.setIdentifyingProp('_id');
     this.editor.data = EcoreEditor.dataObject;
+    this.appendChild(this.editor);
   }
 }
 
