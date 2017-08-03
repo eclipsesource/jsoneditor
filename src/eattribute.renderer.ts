@@ -45,8 +45,7 @@ class EAttributeControl extends ETypeControl {
       const option = document.createElement('option');
       option.value = datatype;
       option.label = datatype;
-
-      console.log('datatype option', option);
+      option.innerText = datatype;
       input.appendChild(option);
     });
 
@@ -59,9 +58,9 @@ class EAttributeControl extends ETypeControl {
 
     referencees.forEach((referencee, index) => {
       const option = document.createElement('option');
-      console.log('referencee', referencee);
       option.value = referencee[identifyingProperty];
       option.label = referencee[labelProperty];
+      option.innerText = referencee[labelProperty];
       input.appendChild(option);
     });
 
