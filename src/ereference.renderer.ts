@@ -4,7 +4,7 @@ import {
   BaseControl,
   ControlElement,
   JsonForms,
-  JsonFormsRenderer,
+  JsonFormsRenderer, optionIs,
   RankedTester,
   rankWith, ReferenceProperty, schemaTypeIs,
   uiTypeIs,
@@ -16,7 +16,7 @@ export const eReferenceRendererTester: RankedTester =
     3,
     and(
       uiTypeIs('Control'),
-      uiSchema => uiSchema.options ? uiSchema.options.id === 'eReference' : false
+      optionIs('id', 'eReference')
     )
   );
 

@@ -67,6 +67,7 @@ const fileInputHandler = editor => evt => {
       const valid = ajv.validate(editor.schema, readData);
       if (valid) {
         editor.data = readData;
+        globalData = readData;
       } else {
         alert('Loaded data does not adhere to the specified schema.');
         console.error('Loaded data does not adhere to the specified schema.');
@@ -79,7 +80,8 @@ const fileInputHandler = editor => evt => {
   reader.readAsText(file);
 };
 
-export const globalData = {}
+// TODO: remove global data object
+export let globalData = {};
 
 window.onload = () => {
   const editor = document.createElement('json-editor') as JsonEditor;
