@@ -7,24 +7,36 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="assets/Roboto-Regular.ttf">
-  <link rel="stylesheet" href="assets/jsonforms-example.css">
-  <link rel="stylesheet" href="assets/bootstrap.css">
   <link rel="stylesheet" href="example.css">
   <script src="assets/native-shim.js"></script>
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+  <link href="assets/jsoneditor.css" rel="stylesheet">
+  <script src="http://code.jquery.com/jquery-3.2.1.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
 </head>
 <body>
-  <button
-          id="upload-data-button"
-          class="btn">
-    Open Data File
-  </button>
-  <button
-          id="export-data-button"
-          class="btn"
-  >
-    Export Model
-  </button>
-  <!-- <button id="saveData">Push Data</button> -->
+<nav>
+  <div class="nav-wrapper" id="toolbar">
+    <a href="#" class="brand-logo"><strong>JSON</strong>Editor</a>
+    <div id="nav-mobile" class="right hide-on-med-and-down">
+      <button
+              id="upload-data-button"
+              class="btn">
+        Open Data File
+      </button>
+      <button
+              id="export-data-button"
+              class="btn"
+      >
+        Export Model
+      </button>
+    </div>
+  </div>
+</nav>
+<div id="editor"></div>
+<!-- <button id="saveData">Push Data</button> -->
 </body>
 <script src="assets/bundle_ecore.js"></script>
 </html>
