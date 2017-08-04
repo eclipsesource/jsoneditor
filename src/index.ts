@@ -2,14 +2,13 @@
 import * as _ from 'lodash';
 import './ereference.renderer';
 import './eattribute.renderer';
+import './materialized.tree.renderer';
 import './jsoneditor';
-import './ecore-editor';
-import { EcoreEditor } from './ecore-editor';
 import { JsonEditor } from './jsoneditor';
-import { JsonForms } from 'jsonforms';
+import { JsonForms, Style } from 'jsonforms';
 import { imageProvider, labelProvider, modelMapping } from './ecore-config';
 import * as Ajv from 'ajv';
-
+declare let $;
 export * from './jsoneditor';
 export * from './ecore-editor';
 
@@ -60,7 +59,7 @@ const fileInputHandler = editor => evt => {
 };
 
 window.onload = () => {
-  const editor = document.createElement('ecore-editor') as EcoreEditor;
+  const editor = document.createElement('json-editor') as JsonEditor;
 
   // create hidden file input element
   const fileInput = document.createElement('input') as HTMLInputElement;
@@ -78,7 +77,78 @@ window.onload = () => {
   uploadButton.onclick = () => {
     fileInput.click();
   };
+  xhttp2.open('GET', 'http://localhost:3001/schema.json', true);
+  // xhttp.open("GET", "http://localhost:3001/task.schema.json", true);
+  xhttp2.send();
 
   editor.data = {};
   document.body.appendChild(editor);
+
+  material();
+};
+
+
+// TODO
+const material = () => {
+  JsonForms.stylingRegistry.registerMany([
+    {
+      name: 'button',
+      classNames: ['btn', 'waves-effect', 'waves-light']
+    },
+    {
+      name: 'array.button',
+      classNames: ['btn-floating', 'waves-effect', 'waves-light', 'array-button']
+    },
+    {
+      name: 'array.layout',
+      classNames: ['z-depth-3']
+    },
+    {
+      name: 'group.layout',
+      classNames: ['z-depth-3']
+    },
+    {
+      name: 'group.label',
+      classNames: ['group.label']
+    },
+    {
+      name: 'collection',
+      classNames: ['collection']
+    },
+    {
+      name: 'item',
+      classNames: ['collection-item']
+    },
+    {
+      name: 'item-active',
+      classNames: ['active']
+    },
+    {
+      name: 'horizontal-layout',
+      classNames: ['row']
+    },
+    {
+      name: 'json-forms',
+      classNames: ['container']
+    }
+  ]);
+
+  JsonForms.stylingRegistry.register({
+    name: 'horizontal-layout-item',
+    classNames: childrenSize => {
+      console.log('children size is', childrenSize[0]);
+      const colSize = Math.floor(12 / childrenSize[0]);
+
+      return ['col', `s${colSize}`];
+    }
+  } as Style);
+
+  JsonForms.stylingRegistry.register({
+    name: 'vertical-layout-item',
+    classNames: ['vertical-layout-item']
+  });
+  JsonForms.stylingRegistry.deregister('select');
+
+  // init selection combo box
+  $('select').material_select();
 };
