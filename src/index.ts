@@ -136,7 +136,6 @@ const material = () => {
   JsonForms.stylingRegistry.register({
     name: 'horizontal-layout-item',
     classNames: childrenSize => {
-      console.log('children size is', childrenSize[0]);
       const colSize = Math.floor(12 / childrenSize[0]);
 
       return ['col', `s${colSize}`];
