@@ -10,7 +10,7 @@ module.exports = {
   ],
   output: {
     path: path.resolve("./", "dist"),
-    publicPath: "/assets/",
+    publicPath: "/",
     filename: "bundle_ecore.js"
   },
 
@@ -28,10 +28,13 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new copyWebpackPlugin([
-      {from: './node_modules/jsonforms/lib/native-shim.js'},
-      {from: './node_modules/jsonforms/dist/jsonforms-example.css'},
-      {from: './Roboto-Regular.ttf'},
-      {from: './jsoneditor.css'}
+      {from: './node_modules/jsonforms/lib/native-shim.js', to: 'assets/native-shim.js' },
+      {from: './node_modules/jsonforms/dist/jsonforms-example.css', to: 'assets/jsonforms-example.css' },
+      {from: './node_modules/materialize-css/dist/css/materialize.css', to: 'assets/materialize.css' },
+      {from: './node_modules/materialize-css/dist/js/materialize.js', to: 'assets/materialize.js' },
+      {from: './node_modules/materialize-css/dist/fonts', to: 'fonts'},
+      {from: './node_modules/jquery/dist/jquery.js', to: 'assets/jquery.js' },
+      {from: './jsoneditor.css', to: 'assets/jsoneditor.css' }
     ])
   ],
   module: {
@@ -51,3 +54,4 @@ module.exports = {
     fs: 'empty'
   }
 };
+
