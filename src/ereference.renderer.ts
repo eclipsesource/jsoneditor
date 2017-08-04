@@ -40,9 +40,9 @@ class EReferenceControl extends ETypeControl {
 
     referencees.forEach((referencee, index) => {
       const option = document.createElement('option');
-      console.log('referencee', referencee);
       option.value = referencee[identifyingProperty];
       option.label = referencee[labelProperty];
+      option.innerText = referencee[labelProperty];
       input.appendChild(option);
     });
 

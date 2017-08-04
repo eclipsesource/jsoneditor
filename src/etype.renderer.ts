@@ -32,10 +32,5 @@ export abstract class ETypeControl extends BaseControl<HTMLSelectElement> {
     return (value === undefined || value === null) ? undefined : value.toString();
   }
 
-  // protected convertInputValue(value: any): any {
-  //   console.log('converted input value', value);
-  //   return value;
-  // }
-
-  protected abstract addOptions(input): void;
+   protected abstract addOptions(input): void;
 }

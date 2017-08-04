@@ -1,15 +1,13 @@
 /* tslint:disable:no-invalid-this */
 import * as _ from 'lodash';
+import * as Ajv from 'ajv';
 import './ereference.renderer';
 import './eattribute.renderer';
+import './materialized.tree.renderer';
 import './jsoneditor';
-import './ecore-editor';
+import { applyMaterialStyle } from './material.styling';
 import { EcoreEditor } from './ecore-editor';
-import { JsonEditor } from './jsoneditor';
-import { JsonForms } from 'jsonforms';
-import { imageProvider, labelProvider, modelMapping } from './ecore-config';
-import * as Ajv from 'ajv';
-
+declare let $;
 export * from './jsoneditor';
 export * from './ecore-editor';
 
@@ -80,5 +78,7 @@ window.onload = () => {
   };
 
   editor.data = {};
-  document.body.appendChild(editor);
+  document.getElementById('editor').appendChild(editor);
+
+  applyMaterialStyle();
 };

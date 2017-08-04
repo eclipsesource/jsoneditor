@@ -1,5 +1,20 @@
 {
   "definitions": {
+    "eLiterals": {
+      "id":"#eliteral",
+      "type": "object",
+      "properties": {
+        "literal": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "integer"
+        }
+      }
+    },
     "eClassifier": {
       "anyOf":[
         {"$ref":"#/definitions/enum"},
@@ -68,7 +83,7 @@
         "eLiterals": {
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/eLiterals"
           }
         },
         "eAnnotations": {
