@@ -376,11 +376,7 @@
         "rel": "full",
         "href": "#/eClassifiers/{eType}",
         "targetSchema": {
-          "anyOf": [{
-            "$ref": "#/definitions/datatype"
-          }, {
-            "$ref": "#/definitions/enum"
-          }]
+          "$ref": "#/definitions/datatype"
         }
       }],
       "additionalProperties": false
