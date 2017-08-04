@@ -1,6 +1,11 @@
 function updateEcoreEditorData(element, data) {
-    console.log("Initializing ECore editor...")
-    var ecore = document.createElement('jsonforms-ecore');
-    ecore.data = data;
-    element.appendChild(ecore);
-};
+  console.log("Initializing Ecore Editor Example...");
+  if (element.firstChild){
+    element.firstChild.remove();
+  }
+
+  var ecoreEditor = document.createElement('ecore-editor');
+  ecoreEditor.data = data;
+
+  element.appendChild(ecoreEditor);
+}
