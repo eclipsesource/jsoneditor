@@ -57,8 +57,49 @@ const fileInputHandler = editor => evt => {
   reader.readAsText(file);
 };
 
+/**
+ * Creates and returns a dialog to display the editor's model data in a text area.
+ */
+const createExportDataDialog = () => {
+  const dialog = document.createElement('dialog') as any;
+  dialog.classList.add('export-data-dialog');
+  const dialogContent  = document.createElement('div');
+  dialogContent.classList.add('export-data-dialog-content');
+  dialog.appendChild(dialogContent);
+  const dialogTitle = document.createElement('label');
+  dialogTitle.innerText = 'Model Data:';
+  dialogTitle.classList.add('export-data-dialog-title');
+  const textarea = document.createElement('textarea');
+  textarea.classList.add('export-data-dialog-textarea');
+  textarea.readOnly = true;
+
+  const buttonsDiv = document.createElement('div');
+  buttonsDiv.classList.add('export-data-dialog-buttons');
+  const dialogClose = document.createElement('button');
+  dialogClose.innerText = 'Close';
+  dialogClose.classList.add('btn');
+  dialogClose.onclick = () => {
+    dialog.close();
+  };
+  const dialogCopy = document.createElement('button');
+  dialogCopy.classList.add('btn');
+  dialogCopy.innerText = 'Copy';
+  dialogCopy.onclick = () => {
+    document.execCommand('copy');
+  };
+  buttonsDiv.appendChild(dialogCopy);
+  buttonsDiv.appendChild(dialogClose);
+  dialogContent.appendChild(dialogTitle);
+  dialogContent.appendChild(textarea);
+  dialogContent.appendChild(buttonsDiv);
+
+  return dialog;
+};
+
 window.onload = () => {
   const editor = document.createElement('ecore-editor') as EcoreEditor;
+  const dialog = createExportDataDialog();
+  document.body.appendChild(dialog);
 
   // create hidden file input element
   const fileInput = document.createElement('input') as HTMLInputElement;
@@ -68,7 +109,12 @@ window.onload = () => {
 
   const exportButton = document.getElementById('export-data-button') as HTMLButtonElement;
   exportButton.onclick = () => {
-    prompt('Model Data', JSON.stringify(editor.data, null, 2));
+    const json = JSON.stringify(editor.data, null, 2);
+    const textarea = dialog.getElementsByTagName('textarea').item(0) as HTMLTextAreaElement;
+    textarea.textContent = json;
+    dialog.showModal();
+    textarea.focus();
+    textarea.select();
   };
 
   // button triggering the hidden input element - only activate after schemas was loaded
