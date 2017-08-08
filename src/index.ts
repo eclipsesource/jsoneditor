@@ -123,6 +123,16 @@ window.onload = () => {
     fileInput.click();
   };
 
+  // configure button to download model data.
+  const downloadButton = document.getElementById('download-data-button');
+  downloadButton.onclick = () => {
+    const a = document.createElement('a');
+    const file = new Blob([JSON.stringify(editor.data, null, 2)], {type: 'application/json'});
+    a.href = URL.createObjectURL(file);
+    a.download = 'download.json';
+    a.click();
+  };
+
   editor.data = {};
   document.getElementById('editor').appendChild(editor);
 
