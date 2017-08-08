@@ -53,6 +53,12 @@ body {
   min-height: 1em;
 }
 
+.jsf-treeMasterDetail .jsf-dnd-drop-target {
+  min-height: 0.75em;
+  border-style: dashed;
+  border-width: thin;
+  border-color: #ccc;
+}
 jsonforms-tree > dialog {
   margin: 0;
   padding: 0;
