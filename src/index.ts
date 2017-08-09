@@ -98,6 +98,7 @@ const createExportDataDialog = () => {
 
 window.onload = () => {
   const editor = document.createElement('ecore-editor') as EcoreEditor;
+  editor.useLocalREST = true;
   const dialog = createExportDataDialog();
   document.body.appendChild(dialog);
 
