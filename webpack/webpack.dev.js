@@ -4,7 +4,7 @@ var copyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: [
-    'webpack-dev-server/client?http://localhost:8081',
+    'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/dev-server',
     './src/index.ts'
   ],
@@ -23,7 +23,7 @@ module.exports = {
   },
   devServer: {
     contentBase: ['./src','./icons'],
-    port: 8081
+    port: 8080
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
@@ -54,4 +54,3 @@ module.exports = {
     fs: 'empty'
   }
 };
-

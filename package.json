@@ -13,15 +13,12 @@
   "typings": "dist/ts-build/index.d.ts",
   "scripts": {
     "start": "npm run dev",
-    "dev": "webpack --config webpack/webpack.dev.js && webpack-dev-server --config webpack/webpack.dev.js --env=dev --inline",
-    "dev-graph": "webpack --config webpack/webpack.dev-graph.js && webpack-dev-server --config webpack/webpack.dev-graph.js --env=dev --inline",
+    "_dev": "webpack --config webpack/webpack.dev.js && webpack-dev-server --config webpack/webpack.dev.js --env=dev --inline",
+    "dev": "npm-run-all --parallel _dev  _serve_schema",
     "bundle": "webpack --config webpack/webpack.build.js --env=production --display-error-details",
     "bundle-ecore": "webpack --config webpack/webpack.build-ecore-editor.js --env=production --display-error-details",
-    "bundle-graph": "webpack --config webpack/webpack.build-graph.js --env=production --display-error-details",
     "build": "npm run tsc && npm run bundle && ncp src/example.css dist/example.css",
-    "serve_schemas": "npm-run-all --parallel _serve_schema  _serve_data",
     "_serve_schema": "lite-server -c ecore-serve/bs-config.json",
-    "_serve_data": "json-server --watch ecore-serve/data.json --port 3004",
     "tsc": "tsc",
     "lint": "tslint --project tslint.json",
     "che": "gulp che",
@@ -31,7 +28,7 @@
     "ajv": "^5.2.2",
     "bootstrap": "^3.3.7",
     "jquery": "^3.2.1",
-    "jsonforms": "next",
+    "jsonforms": "^2.0.0-alpha.10",
     "lodash": "^4.17.4",
     "materialize-css": "^0.100.1"
   },
@@ -46,9 +43,9 @@
     "ncp": "^2.0.0",
     "npm-run-all": "^4.0.2",
     "source-map-loader": "^0.1.6",
-    "tslint": "^5.1.0",
+    "tslint": "^5.6.0",
     "typescript": "^2.4.0",
     "webpack": "^2.4.1",
-    "webpack-dev-server": "^2.4.5"
+    "webpack-dev-server": "^2.7.1"
   }
 }

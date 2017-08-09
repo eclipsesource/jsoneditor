@@ -9,6 +9,7 @@ import { imageProvider, labelProvider, modelMapping } from './ecore-config';
 export class EcoreEditor extends HTMLElement {
   // FIXME: no static data object
   static dataObject: Object;
+  public useLocalREST = false;
   private connected = false;
   private editor: JsonEditor;
 
@@ -48,7 +49,7 @@ export class EcoreEditor extends HTMLElement {
       register(uischemas.epackage_view, 'http://www.eclipse.org/emf/2002/Ecore#//EPackage');
       register(uischemas.reference_view, 'http://www.eclipse.org/emf/2002/Ecore#//EReference');
     };
-    this.loadFromRest('http://localhost:3001/uischema.json', callback);
+    this.loadFromRest('ecoreUiSchema', callback);
   }
 
   private configureLabelMapping() {
@@ -70,10 +71,10 @@ export class EcoreEditor extends HTMLElement {
     const callback = parsedResponse => {
       this.editor.schema = parsedResponse;
     };
-    this.loadFromRest('http://localhost:3001/schema.json', callback);
+    this.loadFromRest('ecoreSchema', callback);
   }
 
-  private loadFromRest(url: string, callback: (parsedResponse: Object) => void) {
+  private loadFromRest(file: string, callback: (parsedResponse: Object) => void) {
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState === 4 && this.status === 200) {
@@ -81,7 +82,14 @@ export class EcoreEditor extends HTMLElement {
         callback(object);
       }
     };
-
+    let url;
+    if (this.useLocalREST) {
+          const datahost = 'http://localhost:3001/';
+          url = datahost + file + '.json';
+        } else {
+          const datahost = 'http://localhost:9090/services/staticecore/';
+          url = datahost + file;
+        }
     xhttp.open('GET', url, false);
     xhttp.send();
   }
