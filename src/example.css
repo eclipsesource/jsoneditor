@@ -59,6 +59,30 @@ body {
   border-width: thin;
   border-color: #ccc;
 }
+
+/* tree master detail create dialog */
+.jsf-treeMasterDetail-dialog {
+  border-width: medium;
+  border-radius: 8px;
+  border-color: lightgrey
+}
+.jsf-treeMasterDetail-dialog-title {
+  font-size: large;
+}
+.jsf-treeMasterDetail-dialog-content {
+    display: flex;
+    flex-direction: column;
+}
+.jsf-treeMasterDetail-dialog-button,
+.jsf-treeMasterDetail-dialog-createbutton {
+  margin-bottom: 5px
+}
+.jsf-treeMasterDetail-dialog-button {
+  width: -webkit-fill-available;
+  margin-top: 15px;
+  margin-bottom: 0;
+}
+
 jsonforms-tree > dialog {
   margin: 0;
   padding: 0;
