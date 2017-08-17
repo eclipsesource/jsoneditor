@@ -5,6 +5,7 @@ import {
   MasterDetailLayout
 } from 'jsonforms';
 import { ModelMapping } from './modelmapping';
+import { Editor } from './editor';
 import * as _ from 'lodash';
 
 /**
@@ -15,7 +16,7 @@ import * as _ from 'lodash';
  * mappings that map types defined in the schema to images, define the types'
  * naming property, and defining a mapping between an object's property and its type.
  */
-export class JsonEditor extends HTMLElement {
+export class JsonEditor extends HTMLElement implements Editor {
   private connected = false;
   private dataObject: object;
   private dataSchema: JsonSchema;

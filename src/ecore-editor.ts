@@ -4,9 +4,10 @@ import './jsoneditor';
 import './eattribute.renderer.ts';
 import './ereference.renderer.ts';
 import { JsonEditor } from './jsoneditor';
+import { Editor } from './editor';
 import { imageProvider, labelProvider, modelMapping } from './ecore-config';
 
-export class EcoreEditor extends HTMLElement {
+export class EcoreEditor extends HTMLElement implements Editor {
   private dataObject: Object;
   public useLocalREST = false;
   private connected = false;
