@@ -1,14 +1,13 @@
 /* tslint:disable:no-invalid-this */
 import { JsonForms, JsonSchema } from 'jsonforms';
 import './jsoneditor';
-import './ereference.renderer';
-import './eattribute.renderer';
+import './eattribute.renderer.ts';
+import './ereference.renderer.ts';
 import { JsonEditor } from './jsoneditor';
 import { imageProvider, labelProvider, modelMapping } from './ecore-config';
 
 export class EcoreEditor extends HTMLElement {
-  // FIXME: no static data object
-  static dataObject: Object;
+  private dataObject: Object;
   public useLocalREST = false;
   private connected = false;
   private editor: JsonEditor;
@@ -25,12 +24,12 @@ export class EcoreEditor extends HTMLElement {
   }
 
   set data(data: Object) {
-    EcoreEditor.dataObject = data;
+    this.dataObject = data;
     this.render();
   }
 
   get data(): Object {
-    return EcoreEditor.dataObject;
+    return this.dataObject;
   }
 
   get schema(): JsonSchema {
@@ -94,8 +93,8 @@ export class EcoreEditor extends HTMLElement {
     xhttp.send();
   }
   private render() {
-    if (!this.connected || EcoreEditor.dataObject === undefined
-        || EcoreEditor.dataObject === null) {
+    if (!this.connected || this.dataObject === undefined
+        || this.dataObject === null) {
       return;
     }
     if (this.editor === undefined) {
@@ -109,7 +108,7 @@ export class EcoreEditor extends HTMLElement {
     this.configureSchema();
 
     JsonForms.config.setIdentifyingProp('_id');
-    this.editor.data = EcoreEditor.dataObject;
+    this.editor.data = this.dataObject;
     this.appendChild(this.editor);
   }
 }

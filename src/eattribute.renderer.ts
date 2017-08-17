@@ -1,20 +1,12 @@
-import * as _ from 'lodash';
 import {
   and,
-  BaseControl,
-  ControlElement,
-  JsonForms,
   JsonFormsRenderer,
   optionIs,
   RankedTester,
-  rankWith, ReferenceProperty, schemaTypeIs,
-  uiTypeIs,
+  rankWith,
+  uiTypeIs
 } from 'jsonforms';
 import { ETypeControl } from './etype.renderer';
-import { EcoreEditor } from '././ecore-editor';
-
-const identifyingProperty = '_id';
-const labelProperty = 'name';
 
 export const eAttributeRendererTester: RankedTester =
   rankWith(
@@ -25,45 +17,33 @@ export const eAttributeRendererTester: RankedTester =
     )
   );
 
+const standardDatatypes = [
+  'http://www.eclipse.org/emf/2002/Ecore#//EBoolean',
+  'http://www.eclipse.org/emf/2002/Ecore#//EDate',
+  'http://www.eclipse.org/emf/2002/Ecore#//EDouble',
+  'http://www.eclipse.org/emf/2002/Ecore#//EInt',
+  'http://www.eclipse.org/emf/2002/Ecore#//EString'
+];
+
 @JsonFormsRenderer({
   selector: 'jsonforms-eattribute-control',
   tester: eAttributeRendererTester
 })
 class EAttributeControl extends ETypeControl {
 
-  private standardDatatypes = [
-    'http://www.eclipse.org/emf/2002/Ecore#//EBoolean',
-    'http://www.eclipse.org/emf/2002/Ecore#//EString',
-    'http://www.eclipse.org/emf/2002/Ecore#//EDate',
-    'http://www.eclipse.org/emf/2002/Ecore#//EInt',
-    'http://www.eclipse.org/emf/2002/Ecore#//EDouble',
-  ];
+  protected getDefaultOptionLabel(): string {
+    return 'Select Datatype:';
+  }
 
   protected addOptions(input) {
+    super.addOptions(input);
     // add standard emf datatypes
-    this.standardDatatypes.forEach((datatype, index) => {
+    standardDatatypes.forEach((datatype, index) => {
       const option = document.createElement('option');
       option.value = datatype;
       option.label = datatype;
       option.innerText = datatype;
       input.appendChild(option);
     });
-
-    // add datatypes defined in model
-    const eReferenceSchema = this.dataSchema;
-    const eTypeRefProp: ReferenceProperty =
-      _.head(JsonForms.schemaService.getReferenceProperties(eReferenceSchema));
-
-    const referencees = eTypeRefProp.findReferenceTargets(EcoreEditor.dataObject);
-
-    referencees.forEach((referencee, index) => {
-      const option = document.createElement('option');
-      option.value = referencee[identifyingProperty];
-      option.label = referencee[labelProperty];
-      option.innerText = referencee[labelProperty];
-      input.appendChild(option);
-    });
-
-    input.classList.add('form-control');
   }
 }

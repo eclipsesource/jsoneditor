@@ -48,6 +48,7 @@ export class JsonEditor extends HTMLElement {
    */
   set data(data: object) {
     this.dataObject = data;
+    JsonForms.rootData = data;
     this.render();
   }
 
