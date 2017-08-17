@@ -1,8 +1,8 @@
 /* tslint:disable:no-invalid-this */
 import { JsonForms, JsonSchema } from 'jsonforms';
 import './jsoneditor';
-import './eattribute.renderer.ts';
-import './ereference.renderer.ts';
+import './eattribute.renderer';
+import './ereference.renderer';
 import { JsonEditor } from './jsoneditor';
 import { Editor } from './editor';
 import { imageProvider, labelProvider, modelMapping } from './ecore-config';
