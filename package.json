@@ -5,9 +5,6 @@
   "repository": "https://github.com/eclipsesource/jsoneditor",
   "bugs": "https://github.com/eclipsesource/jsoneditor/issues",
   "license": "EPL-1.0",
-  "directories": {
-    "test": "test"
-  },
   "main": "dist/ts-build/index.js",
   "typings": "dist/ts-build/index.d.ts",
   "scripts": {
