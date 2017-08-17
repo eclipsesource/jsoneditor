@@ -1,11 +1,10 @@
 {
-  "name": "jsoneditor-ma",
+  "name": "@eclipsesource/jsoneditor",
   "version": "0.0.1-alpha.3",
-  "description": "JSON Forms Editor",
-  "repository": "https://github.com/eclipsesource/jsonforms",
-  "bugs": "https://github.com/eclipsesource/jsonforms/issues",
-  "homepage": "http://jsonforms.io/",
-  "license": "MIT",
+  "description": "JSON Editor",
+  "repository": "https://github.com/eclipsesource/jsoneditor",
+  "bugs": "https://github.com/eclipsesource/jsoneditor/issues",
+  "license": "EPL-1.0",
   "directories": {
     "test": "test"
   },
