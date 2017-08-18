@@ -5,20 +5,15 @@
   "repository": "https://github.com/eclipsesource/jsoneditor",
   "bugs": "https://github.com/eclipsesource/jsoneditor/issues",
   "license": "EPL-1.0",
-  "main": "dist/ts-build/index.js",
-  "typings": "dist/ts-build/index.d.ts",
+  "main": "dist/ts-build/jsoneditor.js",
+  "typings": "dist/ts-build/jsoneditor.d.ts",
   "scripts": {
     "start": "npm run dev",
-    "_dev": "webpack --config webpack/webpack.dev.js && webpack-dev-server --config webpack/webpack.dev.js --env=dev --inline",
-    "dev": "npm-run-all --parallel _dev  _serve_schema",
+    "dev": "webpack --config webpack/webpack.dev.js && webpack-dev-server --config webpack/webpack.dev.js --env=dev --inline",
     "bundle": "webpack --config webpack/webpack.build.js --env=production --display-error-details",
-    "bundle-ecore": "webpack --config webpack/webpack.build-ecore-editor.js --env=production --display-error-details",
-    "build": "npm run tsc && npm run bundle && ncp src/example.css dist/example.css",
-    "_serve_schema": "lite-server -c ecore-serve/bs-config.json",
+    "build": "npm run tsc && npm run bundle && ncp ./jsoneditor.css dist/jsoneditor.css",
     "tsc": "tsc",
-    "lint": "tslint --project tslint.json",
-    "che": "gulp che",
-    "build_che": "npm run build && npm run che"
+    "lint": "tslint --project tslint.json"
   },
   "dependencies": {
     "ajv": "^5.2.2",
@@ -31,12 +26,8 @@
   "devDependencies": {
     "awesome-typescript-loader": "^3.1.3",
     "copy-webpack-plugin": "^4.0.1",
-    "gulp": "^3.9.1",
-    "gulp-concat": "^2.6.1",
-    "gulp-sourcemaps": "^2.6.0",
     "lite-server": "^2.3.0",
     "ncp": "^2.0.0",
-    "npm-run-all": "^4.0.2",
     "source-map-loader": "^0.1.6",
     "tslint": "^5.6.0",
     "typescript": "^2.4.0",

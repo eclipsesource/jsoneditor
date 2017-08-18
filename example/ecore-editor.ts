@@ -1,11 +1,14 @@
 /* tslint:disable:no-invalid-this */
 import { JsonForms, JsonSchema } from 'jsonforms';
-import './jsoneditor';
-import './eattribute.renderer';
+import '../src/jsoneditor';
 import './ereference.renderer';
-import { JsonEditor } from './jsoneditor';
-import { Editor } from './editor';
+import './eattribute.renderer';
+import { JsonEditor } from '../src/jsoneditor';
+import { Editor } from '../src/editor';
 import { imageProvider, labelProvider, modelMapping } from './ecore-config';
+
+import {ecore_schema} from './schema';
+import {attributeView, eclass_view, datatype_view, eReferenceView, enum_view, epackage_view} from './uischema';
 
 export class EcoreEditor extends HTMLElement implements Editor {
   private dataObject: Object;
@@ -41,15 +44,12 @@ export class EcoreEditor extends HTMLElement implements Editor {
     return undefined;
   }
   private registerUiSchemas(): void {
-    const callback = uischemas => {
-      register(uischemas.attribute_view, 'http://www.eclipse.org/emf/2002/Ecore#//EAttribute');
-      register(uischemas.eclass_view, 'http://www.eclipse.org/emf/2002/Ecore#//EClass');
-      register(uischemas.datatype_view, 'http://www.eclipse.org/emf/2002/Ecore#//EDataType');
-      register(uischemas.enum_view, 'http://www.eclipse.org/emf/2002/Ecore#//EEnum');
-      register(uischemas.epackage_view, 'http://www.eclipse.org/emf/2002/Ecore#//EPackage');
-      register(uischemas.reference_view, 'http://www.eclipse.org/emf/2002/Ecore#//EReference');
-    };
-    this.loadFromRest('ecoreUiSchema', callback);
+      register(attributeView, 'http://www.eclipse.org/emf/2002/Ecore#//EAttribute');
+      register(eclass_view, 'http://www.eclipse.org/emf/2002/Ecore#//EClass');
+      register(datatype_view, 'http://www.eclipse.org/emf/2002/Ecore#//EDataType');
+      register(enum_view, 'http://www.eclipse.org/emf/2002/Ecore#//EEnum');
+      register(epackage_view, 'http://www.eclipse.org/emf/2002/Ecore#//EPackage');
+      register(eReferenceView, 'http://www.eclipse.org/emf/2002/Ecore#//EReference');
   }
 
   private configureLabelMapping() {
@@ -67,32 +67,7 @@ export class EcoreEditor extends HTMLElement implements Editor {
     // this.loadFromRest('http', callback);
   }
 
-  private configureSchema() {
-    const callback = parsedResponse => {
-      this.editor.schema = parsedResponse;
-    };
-    this.loadFromRest('ecoreSchema', callback);
-  }
 
-  private loadFromRest(file: string, callback: (parsedResponse: Object) => void) {
-    const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-      if (this.readyState === 4 && this.status === 200) {
-        const object = JSON.parse(this.responseText);
-        callback(object);
-      }
-    };
-    let url;
-    if (this.useLocalREST) {
-          const datahost = 'http://localhost:3001/';
-          url = datahost + file + '.json';
-        } else {
-          const datahost = 'http://localhost:9090/services/staticecore/';
-          url = datahost + file;
-        }
-    xhttp.open('GET', url, false);
-    xhttp.send();
-  }
   private render() {
     if (!this.connected || this.dataObject === undefined
         || this.dataObject === null) {
@@ -106,7 +81,7 @@ export class EcoreEditor extends HTMLElement implements Editor {
     this.configureLabelMapping();
     this.configureModelMapping();
     this.registerUiSchemas();
-    this.configureSchema();
+    this.editor.schema = ecore_schema;
 
     JsonForms.config.setIdentifyingProp('_id');
     this.editor.data = this.dataObject;

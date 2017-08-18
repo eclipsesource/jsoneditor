@@ -2,10 +2,10 @@ const path = require("path");
 const webpack = require('webpack');
 
 module.exports = {
-    entry: './src/index.ts',
+    entry: './src/jsoneditor.ts',
     output: {
       path: path.resolve("./", "dist"),
-      filename: "jsonforms_ecore.js"
+      filename: "jsoneditor.js"
     },
 
     // Enable sourcemaps for debugging webpack's output.

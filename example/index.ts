@@ -4,7 +4,7 @@ import * as Ajv from 'ajv';
 import './ereference.renderer';
 import './eattribute.renderer';
 import './materialized.tree.renderer';
-import './jsoneditor';
+import '../src/jsoneditor';
 import {
   configureDownloadButton,
   configureExportButton,
@@ -14,14 +14,9 @@ import {
 import { applyMaterialStyle } from './material.styling';
 import { EcoreEditor } from './ecore-editor';
 declare let $;
-export * from './editor';
-export * from './toolbar';
-export * from './jsoneditor';
-export * from './ecore-editor';
 
 window.onload = () => {
   const editor = document.createElement('ecore-editor') as EcoreEditor;
-  editor.useLocalREST = true;
   const exportDialog = createExportDataDialog();
   document.body.appendChild(exportDialog);
 
