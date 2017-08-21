@@ -19,7 +19,7 @@
     "ajv": "^5.2.2",
     "bootstrap": "^3.3.7",
     "jquery": "^3.2.1",
-    "jsonforms": "^2.0.0-alpha.10",
+    "jsonforms": "next",
     "lodash": "^4.17.4",
     "materialize-css": "^0.100.1"
   },

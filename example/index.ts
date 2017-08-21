@@ -5,12 +5,13 @@ import './ereference.renderer';
 import './eattribute.renderer';
 import './materialized.tree.renderer';
 import '../src/jsoneditor';
+import './ecore-editor';
 import {
   configureDownloadButton,
   configureExportButton,
   configureUploadButton,
   createExportDataDialog
-} from './toolbar';
+} from '../src/toolbar';
 import { applyMaterialStyle } from './material.styling';
 import { EcoreEditor } from './ecore-editor';
 declare let $;

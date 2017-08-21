@@ -1,6 +1,5 @@
 import * as _ from 'lodash';
 import { ReferenceControl } from 'jsonforms';
-import { EcoreEditor } from './ecore-editor';
 
 const labelProperty = 'name';
 
