@@ -37,18 +37,3 @@ body {
 .icon.annotation {
   background-image: url('./EAnnotation.gif');
 }
-
-
-/*temporary fix*/
-.tree-master li > div {
-  min-height: 1.25em;
-}
-.tree-master li::after {
-  top:-0.625em;
-}
-
-.label .jse-tree-element-text {
-  float: left;
-  min-width: 2em;
-  min-height: 1em;
-}
