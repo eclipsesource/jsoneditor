@@ -8,6 +8,10 @@ import { ModelMapping } from './modelmapping';
 import { Editor } from './editor';
 import * as _ from 'lodash';
 
+export * from './toolbar';
+export * from './editor';
+export * from './modelmapping';
+
 /**
  * The JsonEditor renders JSON data specified by a JSON Schema.
  * It displays the data's containment hierarchy in a tree and allows to
