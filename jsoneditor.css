@@ -203,3 +203,48 @@ jsf-treeMasterDetail {
 .jsf-treeMasterDetail-master > ul > li:only-child {
     padding-left: 0.25em;
 }
+
+/* tree master detail create dialog */
+.jsf-treeMasterDetail-dialog {
+  border-width: medium;
+  border-radius: 8px;
+  border-color: lightgrey
+}
+.jsf-treeMasterDetail-dialog-title {
+  font-size: large;
+}
+.jsf-treeMasterDetail-dialog-content {
+    display: flex;
+    flex-direction: column;
+}
+.jsf-treeMasterDetail-dialog-button,
+.jsf-treeMasterDetail-dialog-createbutton {
+  margin-bottom: 5px
+}
+.jsf-treeMasterDetail-dialog-button {
+  width: -webkit-fill-available;
+  margin-top: 15px;
+  margin-bottom: 0;
+}
+
+/* Create border for possible drag and drop drop-zones */
+.jsf-treeMasterDetail .jsf-dnd-drop-target {
+  min-height: 0.75em;
+  border-style: dashed;
+  border-width: thin;
+  border-color: #ccc;
+}
+
+/*temporary fix*/
+/*.tree-master li > div {
+  min-height: 1.25em;
+}
+.tree-master li::after {
+  top:-0.625em;
+}
+
+.label .jse-tree-element-text {
+  float: left;
+  min-width: 2em;
+  min-height: 1em;
+}*/
