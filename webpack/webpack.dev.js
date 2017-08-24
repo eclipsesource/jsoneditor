@@ -6,12 +6,12 @@ module.exports = {
   entry: [
     'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/dev-server',
-    './src/index.ts'
+    './example/index.ts'
   ],
   output: {
     path: path.resolve("./", "dist"),
     publicPath: "/",
-    filename: "bundle_ecore.js"
+    filename: "bundle.js"
   },
 
   // Enable sourcemaps for debugging webpack's output.
@@ -22,7 +22,7 @@ module.exports = {
     extensions: [".ts", ".js"]
   },
   devServer: {
-    contentBase: ['./src','./icons'],
+    contentBase: ['./src','./icons', './example'],
     port: 8080
   },
   plugins: [
