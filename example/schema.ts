@@ -1,495 +1,494 @@
-export const ecore_schema =
-{
-  "definitions": {
-    "eLiterals": {
-      "id":"#eliteral",
-      "type": "object",
-      "properties": {
-        "literal": {
-          "type": "string"
+export const ecoreSchema = {
+  'definitions': {
+    'eLiterals': {
+      'id': '#eliteral',
+      'type': 'object',
+      'properties': {
+        'literal': {
+          'type': 'string'
         },
-        "name": {
-          "type": "string"
+        'name': {
+          'type': 'string'
         },
-        "value": {
-          "type": "integer"
+        'value': {
+          'type': 'integer'
         }
       }
     },
-    "eClassifier": {
-      "anyOf":[
-        {"$ref":"#/definitions/enum"},
-        {"$ref":"#/definitions/datatype"}
+    'eClassifier': {
+      'anyOf': [
+        {'$ref': '#/definitions/enum'},
+        {'$ref': '#/definitions/datatype'}
       ]
     },
-    "type": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "minimum": 0
+    'type': {
+      'type': 'object',
+      'properties': {
+        'id': {
+          'type': 'integer',
+          'minimum': 0
         }
       },
-      "links": [{
-        "rel": "full",
-        "href": "#/eClassifiers/{id}",
-        "targetSchema": {
-          "$ref": "#/definitions/eClassifier"
+      'links': [{
+        'rel': 'full',
+        'href': '#/eClassifiers/{id}',
+        'targetSchema': {
+          '$ref': '#/definitions/eClassifier'
         }
       }],
-      "additionalProperties": false
+      'additionalProperties': false
     },
-    "annotation": {
-      "id":"#annotation",
-      "type": "object",
-      "properties": {
-        "eClass": {
-          "type": "string"
+    'annotation': {
+      'id': '#annotation',
+      'type': 'object',
+      'properties': {
+        'eClass': {
+          'type': 'string'
         },
-        "_id": {
-          "type": "string"
+        '_id': {
+          'type': 'string'
         },
-        "source": {
-          "type": "string"
+        'source': {
+          'type': 'string'
         },
-        "details": {
-          "type": "object"
+        'details': {
+          'type': 'object'
         }
       },
-      "additionalProperties": false
+      'additionalProperties': false
     },
-    "enum": {
-      "id":"#enum",
-      "type": "object",
-      "properties": {
-        "eClass": {
-          "type": "string",
-          "default": "http://www.eclipse.org/emf/2002/Ecore#//EEnum"
+    'enum': {
+      'id': '#enum',
+      'type': 'object',
+      'properties': {
+        'eClass': {
+          'type': 'string',
+          'default': 'http://www.eclipse.org/emf/2002/Ecore#//EEnum'
         },
-        "_id": {
-          "type": "string"
+        '_id': {
+          'type': 'string'
         },
-        "name": {
-          "type": "string"
+        'name': {
+          'type': 'string'
         },
-        "instanceClassName": {
-          "type": "string"
+        'instanceClassName': {
+          'type': 'string'
         },
-        "instanceTypeName": {
-          "type": "string"
+        'instanceTypeName': {
+          'type': 'string'
         },
-        "serializable": {
-          "type": "boolean"
+        'serializable': {
+          'type': 'boolean'
         },
-        "eLiterals": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/eLiterals"
+        'eLiterals': {
+          'type': 'array',
+          'items': {
+            '$ref': '#/definitions/eLiterals'
           }
         },
-        "eAnnotations": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/annotation"
-          }
-        }
-      },
-      "additionalProperties": false
-    },
-    "datatype": {
-      "id":"#datatype",
-      "type": "object",
-      "properties": {
-        "eClass": {
-          "type": "string",
-          "default": "http://www.eclipse.org/emf/2002/Ecore#//EDataType"
-        },
-        "_id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "instanceClassName": {
-          "type": "string"
-        },
-        "instanceTypeName": {
-          "type": "string"
-        },
-        "serializable": {
-          "type": "boolean"
-        },
-        "eAnnotations": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/annotation"
+        'eAnnotations': {
+          'type': 'array',
+          'items': {
+            '$ref': '#/definitions/annotation'
           }
         }
       },
-      "additionalProperties": false
+      'additionalProperties': false
     },
-    "eclass": {
-      "type": "object",
-      "id":"#class",
-      "properties": {
-        "eClass": {
-          "type": "string",
-          "default": "http://www.eclipse.org/emf/2002/Ecore#//EClass"
+    'datatype': {
+      'id': '#datatype',
+      'type': 'object',
+      'properties': {
+        'eClass': {
+          'type': 'string',
+          'default': 'http://www.eclipse.org/emf/2002/Ecore#//EDataType'
         },
-        "_id": {
-          "type": "string"
+        '_id': {
+          'type': 'string'
         },
-        "name": {
-          "type": "string"
+        'name': {
+          'type': 'string'
         },
-        "secondName": {
-          "type": "string"
+        'instanceClassName': {
+          'type': 'string'
         },
-        "instanceClassName": {
-          "type": "string"
+        'instanceTypeName': {
+          'type': 'string'
         },
-        "instanceTypeName": {
-          "type": "string"
+        'serializable': {
+          'type': 'boolean'
         },
-        "abstract": {
-          "type": "boolean"
+        'eAnnotations': {
+          'type': 'array',
+          'items': {
+            '$ref': '#/definitions/annotation'
+          }
+        }
+      },
+      'additionalProperties': false
+    },
+    'eclass': {
+      'type': 'object',
+      'id': '#class',
+      'properties': {
+        'eClass': {
+          'type': 'string',
+          'default': 'http://www.eclipse.org/emf/2002/Ecore#//EClass'
         },
-        "interface": {
-          "type": "boolean"
+        '_id': {
+          'type': 'string'
         },
-        "eStructuralFeatures": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {"$ref": "#/definitions/attribute"},
-              {"$ref": "#/definitions/reference"}
+        'name': {
+          'type': 'string'
+        },
+        'secondName': {
+          'type': 'string'
+        },
+        'instanceClassName': {
+          'type': 'string'
+        },
+        'instanceTypeName': {
+          'type': 'string'
+        },
+        'abstract': {
+          'type': 'boolean'
+        },
+        'interface': {
+          'type': 'boolean'
+        },
+        'eStructuralFeatures': {
+          'type': 'array',
+          'items': {
+            'anyOf': [
+              {'$ref': '#/definitions/attribute'},
+              {'$ref': '#/definitions/reference'}
             ]
           }
         },
-        "eOperations": {
-          "type": "array",
-          "items": {
-            "id":"#operation",
-            "type": "object",
-            "properties": {
-              "eClass": {
-                "type": "string"
+        'eOperations': {
+          'type': 'array',
+          'items': {
+            'id': '#operation',
+            'type': 'object',
+            'properties': {
+              'eClass': {
+                'type': 'string'
               },
-              "_id": {
-                "type": "string"
+              '_id': {
+                'type': 'string'
               },
-              "name": {
-                "type": "string"
+              'name': {
+                'type': 'string'
               },
-              "ordered": {
-                "type": "boolean"
+              'ordered': {
+                'type': 'boolean'
               },
-              "unique": {
-                "type": "boolean"
+              'unique': {
+                'type': 'boolean'
               },
-              "lowerBound": {
-                "type": "integer"
+              'lowerBound': {
+                'type': 'integer'
               },
-              "upperBound": {
-                "type": "integer"
+              'upperBound': {
+                'type': 'integer'
               },
-              "many": {
-                "type": "boolean"
+              'many': {
+                'type': 'boolean'
               },
-              "required": {
-                "type": "boolean"
+              'required': {
+                'type': 'boolean'
               },
-              "eType": {
-                "type": "string"
+              'eType': {
+                'type': 'string'
               },
-              "eTypeParameters": {
-                "type": "array",
-                "items": {
-                  "id": "#typeparameter",
-                  "type": "object",
-                  "properties": {
-                    "eClass": {
-                      "type": "string"
+              'eTypeParameters': {
+                'type': 'array',
+                'items': {
+                  'id': '#typeparameter',
+                  'type': 'object',
+                  'properties': {
+                    'eClass': {
+                      'type': 'string'
                     },
-                    "_id": {
-                      "type": "string"
+                    '_id': {
+                      'type': 'string'
                     },
-                    "name": {
-                      "type": "string"
+                    'name': {
+                      'type': 'string'
                     }
                   },
-                  "additionalProperties": false
+                  'additionalProperties': false
                 }
               },
-              "eParameters": {
-                "type": "array",
-                "items": {
-                  "id": "#parameter",
-                  "type": "object",
-                  "properties": {
-                    "eClass": {
-                      "type": "string"
+              'eParameters': {
+                'type': 'array',
+                'items': {
+                  'id': '#parameter',
+                  'type': 'object',
+                  'properties': {
+                    'eClass': {
+                      'type': 'string'
                     },
-                    "_id": {
-                      "type": "string"
+                    '_id': {
+                      'type': 'string'
                     },
-                    "name": {
-                      "type": "string"
+                    'name': {
+                      'type': 'string'
                     },
-                    "ordered": {
-                      "type": "boolean"
+                    'ordered': {
+                      'type': 'boolean'
                     },
-                    "unique": {
-                      "type": "boolean"
+                    'unique': {
+                      'type': 'boolean'
                     },
-                    "lowerBound": {
-                      "type": "integer"
+                    'lowerBound': {
+                      'type': 'integer'
                     },
-                    "upperBound": {
-                      "type": "integer"
+                    'upperBound': {
+                      'type': 'integer'
                     },
-                    "many": {
-                      "type": "boolean"
+                    'many': {
+                      'type': 'boolean'
                     },
-                    "required": {
-                      "type": "boolean"
+                    'required': {
+                      'type': 'boolean'
                     },
-                    "eType": {
-                      "type": "string"
+                    'eType': {
+                      'type': 'string'
                     },
-                    "eGenericType": {
-                      "type": "object",
-                      "properties": {
-                        "eClass": {
-                          "type": "string"
+                    'eGenericType': {
+                      'type': 'object',
+                      'properties': {
+                        'eClass': {
+                          'type': 'string'
                         },
-                        "_id": {
-                          "type": "string"
+                        '_id': {
+                          'type': 'string'
                         },
-                        "eClassifier": {
-                          "type": "object",
-                          "properties": {
-                            "eClass": {
-                              "type": "string"
+                        'eClassifier': {
+                          'type': 'object',
+                          'properties': {
+                            'eClass': {
+                              'type': 'string'
                             },
-                            "$ref": {
-                              "type": "string"
+                            '$ref': {
+                              'type': 'string'
                             }
                           },
-                          "additionalProperties": false
+                          'additionalProperties': false
                         },
-                        "eTypeArguments": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "eClass": {
-                                "type": "string"
+                        'eTypeArguments': {
+                          'type': 'array',
+                          'items': {
+                            'type': 'object',
+                            'properties': {
+                              'eClass': {
+                                'type': 'string'
                               },
-                              "_id": {
-                                "type": "string"
+                              '_id': {
+                                'type': 'string'
                               }
                             },
-                            "additionalProperties": false
+                            'additionalProperties': false
                           }
                         }
                       },
-                      "additionalProperties": false
+                      'additionalProperties': false
                     }
                   },
-                  "additionalProperties": false
+                  'additionalProperties': false
                 }
               }
             },
-            "additionalProperties": false
+            'additionalProperties': false
           }
         },
-        "eAnnotations": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/annotation"
+        'eAnnotations': {
+          'type': 'array',
+          'items': {
+            '$ref': '#/definitions/annotation'
           }
         }
       },
-      "additionalProperties": false
+      'additionalProperties': false
     },
-    "attribute": {
-      "id":"#attribute",
-      "type": "object",
-      "properties": {
-        "eClass": {
-          "type": "string",
-          "default": "http://www.eclipse.org/emf/2002/Ecore#//EAttribute"
+    'attribute': {
+      'id': '#attribute',
+      'type': 'object',
+      'properties': {
+        'eClass': {
+          'type': 'string',
+          'default': 'http://www.eclipse.org/emf/2002/Ecore#//EAttribute'
         },
-        "_id": {
-          "type": "string"
+        '_id': {
+          'type': 'string'
         },
-        "name": {
-          "type": "string"
+        'name': {
+          'type': 'string'
         },
-        "ordered": {
-          "type": "boolean"
+        'ordered': {
+          'type': 'boolean'
         },
-        "unique": {
-          "type": "boolean"
+        'unique': {
+          'type': 'boolean'
         },
-        "lowerBound": {
-          "type": "integer"
+        'lowerBound': {
+          'type': 'integer'
         },
-        "upperBound": {
-          "type": "integer"
+        'upperBound': {
+          'type': 'integer'
         },
-        "many": {
-          "type": "boolean"
+        'many': {
+          'type': 'boolean'
         },
-        "required": {
-          "type": "boolean"
+        'required': {
+          'type': 'boolean'
         },
-        "changeable": {
-          "type": "boolean"
+        'changeable': {
+          'type': 'boolean'
         },
-        "volatile": {
-          "type": "boolean"
+        'volatile': {
+          'type': 'boolean'
         },
-        "transient": {
-          "type": "boolean"
+        'transient': {
+          'type': 'boolean'
         },
-        "defaultValueLiteral": {
-          "type": "string"
+        'defaultValueLiteral': {
+          'type': 'string'
         },
-        "unsettable": {
-          "type": "boolean"
+        'unsettable': {
+          'type': 'boolean'
         },
-        "derived": {
-          "type": "boolean"
+        'derived': {
+          'type': 'boolean'
         },
-        "containment": {
-          "type": "boolean"
+        'containment': {
+          'type': 'boolean'
         },
-        "resolveProxies": {
-          "type": "boolean"
+        'resolveProxies': {
+          'type': 'boolean'
         },
-        "eType": {
-          "type": "string"
+        'eType': {
+          'type': 'string'
         }
       },
-      "links": [{
-        "rel": "full",
-        "href": "#/eClassifiers/{eType}",
-        "targetSchema": {
-          "$ref": "#/definitions/datatype"
+      'links': [{
+        'rel': 'full',
+        'href': '#/eClassifiers/{eType}',
+        'targetSchema': {
+          '$ref': '#/definitions/datatype'
         }
       }],
-      "additionalProperties": false
+      'additionalProperties': false
     },
-    "reference": {
-      "id": "#reference",
-      "type": "object",
-      "properties": {
-        "eClass": {
-          "type": "string",
-          "default": "http://www.eclipse.org/emf/2002/Ecore#//EReference"
+    'reference': {
+      'id': '#reference',
+      'type': 'object',
+      'properties': {
+        'eClass': {
+          'type': 'string',
+          'default': 'http://www.eclipse.org/emf/2002/Ecore#//EReference'
         },
-        "_id": {
-          "type": "string"
+        '_id': {
+          'type': 'string'
         },
-        "name": {
-          "type": "string"
+        'name': {
+          'type': 'string'
         },
-        "ordered": {
-          "type": "boolean"
+        'ordered': {
+          'type': 'boolean'
         },
-        "unique": {
-          "type": "boolean"
+        'unique': {
+          'type': 'boolean'
         },
-        "lowerBound": {
-          "type": "integer"
+        'lowerBound': {
+          'type': 'integer'
         },
-        "upperBound": {
-          "type": "integer"
+        'upperBound': {
+          'type': 'integer'
         },
-        "many": {
-          "type": "boolean"
+        'many': {
+          'type': 'boolean'
         },
-        "required": {
-          "type": "boolean"
+        'required': {
+          'type': 'boolean'
         },
-        "changeable": {
-          "type": "boolean"
+        'changeable': {
+          'type': 'boolean'
         },
-        "volatile": {
-          "type": "boolean"
+        'volatile': {
+          'type': 'boolean'
         },
-        "transient": {
-          "type": "boolean"
+        'transient': {
+          'type': 'boolean'
         },
-        "defaultValueLiteral": {
-          "type": "string"
+        'defaultValueLiteral': {
+          'type': 'string'
         },
-        "unsettable": {
-          "type": "boolean"
+        'unsettable': {
+          'type': 'boolean'
         },
-        "derived": {
-          "type": "boolean"
+        'derived': {
+          'type': 'boolean'
         },
-        "containment": {
-          "type": "boolean"
+        'containment': {
+          'type': 'boolean'
         },
-        "resolveProxies": {
-          "type": "boolean"
+        'resolveProxies': {
+          'type': 'boolean'
         },
-        "eOpposite": {
-          "type": "object",
-          "properties": {
-            "$ref": {
-              "type": "string"
+        'eOpposite': {
+          'type': 'object',
+          'properties': {
+            '$ref': {
+              'type': 'string'
             }
           },
-          "additionalProperties": false
+          'additionalProperties': false
         },
-        "eType": {
-          "type": "string"
+        'eType': {
+          'type': 'string'
         }
       },
-      "links": [{
-        "rel": "full",
-        "href": "#/eClassifiers/{eType}",
-        "targetSchema": {
-          "$ref": "#/definitions/eclass"
+      'links': [{
+        'rel': 'full',
+        'href': '#/eClassifiers/{eType}',
+        'targetSchema': {
+          '$ref': '#/definitions/eclass'
         }
       }],
-      "additionalProperties": false
+      'additionalProperties': false
     }
   },
-  "type": "object",
-  "id":"#package",
-  "properties": {
-    "eClass": {
-      "type": "string",
-      "default": "http://www.eclipse.org/emf/2002/Ecore#//EPackage"
+  'type': 'object',
+  'id': '#package',
+  'properties': {
+    'eClass': {
+      'type': 'string',
+      'default': 'http://www.eclipse.org/emf/2002/Ecore#//EPackage'
     },
-    "_id": {
-      "type": "string"
+    '_id': {
+      'type': 'string'
     },
-    "name": {
-      "type": "string"
+    'name': {
+      'type': 'string'
     },
-    "nsURI": {
-      "type": "string"
+    'nsURI': {
+      'type': 'string'
     },
-    "nsPrefix": {
-      "type": "string"
+    'nsPrefix': {
+      'type': 'string'
     },
-    "eClassifiers": {
-      "type": "array",
-      "items": {
-        "anyOf": [
-            {"$ref": "#/definitions/eclass"},
-            {"$ref": "#/definitions/enum"},
-            {"$ref": "#/definitions/datatype"}
+    'eClassifiers': {
+      'type': 'array',
+      'items': {
+        'anyOf': [
+            {'$ref': '#/definitions/eclass'},
+            {'$ref': '#/definitions/enum'},
+            {'$ref': '#/definitions/datatype'}
         ]
       }
     }
   },
-  "additionalProperties": false
+  'additionalProperties': false
 };

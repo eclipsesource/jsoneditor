@@ -6,13 +6,13 @@ import './eattribute.renderer';
 import { JsonEditor } from '../src/jsoneditor';
 import { Editor } from '../src/editor';
 import { imageProvider, labelProvider, modelMapping } from './ecore-config';
-import { ecore_schema } from './schema';
+import { ecoreSchema } from './schema';
 import {
   attributeView,
-  datatype_view,
-  eclass_view,
-  enum_view,
-  epackage_view,
+  datatypeView,
+  eClassView,
+  enumView,
+  ePackageView,
   eReferenceView
 } from './uischema';
 
@@ -51,10 +51,10 @@ export class EcoreEditor extends HTMLElement implements Editor {
   }
   private registerUiSchemas(): void {
     this.editor.registerDetailSchema('#attribute', attributeView);
-    this.editor.registerDetailSchema('#class', eclass_view);
-    this.editor.registerDetailSchema('#datatype', datatype_view);
-    this.editor.registerDetailSchema('#enum', enum_view);
-    this.editor.registerDetailSchema('#package', epackage_view);
+    this.editor.registerDetailSchema('#class', eClassView);
+    this.editor.registerDetailSchema('#datatype', datatypeView);
+    this.editor.registerDetailSchema('#enum', enumView);
+    this.editor.registerDetailSchema('#package', ePackageView);
     this.editor.registerDetailSchema('#reference', eReferenceView);
   }
 
@@ -86,7 +86,7 @@ export class EcoreEditor extends HTMLElement implements Editor {
     this.configureLabelMapping();
     this.configureModelMapping();
     this.registerUiSchemas();
-    this.editor.schema = ecore_schema;
+    this.editor.schema = ecoreSchema;
 
     JsonForms.config.setIdentifyingProp('_id');
     this.editor.data = this.dataObject;

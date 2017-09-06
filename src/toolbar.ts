@@ -3,25 +3,6 @@ import * as Ajv from 'ajv';
 import { Editor } from './editor';
 
 /**
- * Configures the given button to allow uploading data as a file to the given editor.
- *
- * @param {Editor} editor The editor for which data is uploaded
- * @param {HTMLButtonElement} uploadButton The button that will trigger the upload dialog
- */
-export const configureUploadButton = (editor: Editor, uploadButton: HTMLButtonElement) => {
-  // create hidden file input element
-  const fileInput = document.createElement('input') as HTMLInputElement;
-  fileInput.type = 'file';
-  fileInput.style.display = 'none';
-  fileInput.addEventListener('change', fileInputHandler(editor));
-
-  // the button triggers the hidden input element
-  uploadButton.onclick = () => {
-    fileInput.click();
-  };
-};
-
-/**
  * Handler for a file input change event.
  * Loads the file, converts it to JSON and validates it against the editor's schema.
  * If these steps are successful, the loaded data is set in the editor.
@@ -45,8 +26,8 @@ const fileInputHandler = editor => evt => {
     try {
       readData = JSON.parse(reader.result);
     } catch (err) {
-      alert('The selected file \'' + file.name + '\' does not contain valid JSON');
-      console.error('The loaded file did not contain valid JSON: ' + err);
+      console.error('The loaded file did not contain valid JSON.', err);
+      alert(`The selected file '${file.name}' does not contain valid JSON`);
 
       return;
     }
@@ -65,6 +46,25 @@ const fileInputHandler = editor => evt => {
   };
 
   reader.readAsText(file);
+};
+
+/**
+ * Configures the given button to allow uploading data as a file to the given editor.
+ *
+ * @param {Editor} editor The editor for which data is uploaded
+ * @param {HTMLButtonElement} uploadButton The button that will trigger the upload dialog
+ */
+export const configureUploadButton = (editor: Editor, uploadButton: HTMLButtonElement) => {
+  // create hidden file input element
+  const fileInput = document.createElement('input') as HTMLInputElement;
+  fileInput.type = 'file';
+  fileInput.style.display = 'none';
+  fileInput.addEventListener('change', fileInputHandler(editor));
+
+  // the button triggers the hidden input element
+  uploadButton.onclick = () => {
+    fileInput.click();
+  };
 };
 
 /**

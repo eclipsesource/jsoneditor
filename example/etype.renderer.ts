@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import { ReferenceControl } from 'jsonforms';
 
 const labelProperty = 'name';

@@ -1,41 +1,41 @@
 export const attributeView = {
-  "type": "VerticalLayout",
-  "elements": [
+  'type': 'VerticalLayout',
+  'elements': [
   {
-    "type": "Group",
-    "label": "Standard",
-    "elements": [
+    'type': 'Group',
+    'label': 'Standard',
+    'elements': [
     {
-      "type": "Control",
-      "scope": {
-      "$ref": "#/properties/name"
+      'type': 'Control',
+      'scope': {
+      '$ref': '#/properties/name'
       }
     },
     {
-      "type": "Control",
-      "label": "E Type",
-      "scope": {
-        "$ref": "#/properties/eType"
+      'type': 'Control',
+      'label': 'E Type',
+      'scope': {
+        '$ref': '#/properties/eType'
        },
-       "options": {
-         "id": "eAttribute"
+       'options': {
+         'id': 'eAttribute'
        }
     },
     {
-      "type": "HorizontalLayout",
-      "elements": [
+      'type': 'HorizontalLayout',
+      'elements': [
       {
-        "type": "Control",
-        "label": "Lower Bound",
-        "scope": {
-        "$ref": "#/properties/lowerBound"
+        'type': 'Control',
+        'label': 'Lower Bound',
+        'scope': {
+        '$ref': '#/properties/lowerBound'
         }
       },
       {
-        "type": "Control",
-        "label": "Upper Bound",
-        "scope": {
-        "$ref": "#/properties/upperBound"
+        'type': 'Control',
+        'label': 'Upper Bound',
+        'scope': {
+        '$ref': '#/properties/upperBound'
         }
       }
       ]
@@ -43,55 +43,55 @@ export const attributeView = {
     ]
   },
   {
-    "type": "Group",
-    "label": "Advanced",
-    "elements": [
+    'type': 'Group',
+    'label': 'Advanced',
+    'elements': [
     {
-      "type": "Control",
-      "scope": {
-      "$ref": "#/properties/unsettable"
+      'type': 'Control',
+      'scope': {
+      '$ref': '#/properties/unsettable'
       }
     },
     {
-      "type": "Control",
-      "scope": {
-      "$ref": "#/properties/ordered"
+      'type': 'Control',
+      'scope': {
+      '$ref': '#/properties/ordered'
       }
     },
     {
-      "type": "Control",
-      "scope": {
-      "$ref": "#/properties/unique"
+      'type': 'Control',
+      'scope': {
+      '$ref': '#/properties/unique'
       }
     },
     {
-      "type": "Control",
-      "scope": {
-      "$ref": "#/properties/changeable"
+      'type': 'Control',
+      'scope': {
+      '$ref': '#/properties/changeable'
       }
     },
     {
-      "type": "Control",
-      "scope": {
-      "$ref": "#/properties/volatile"
+      'type': 'Control',
+      'scope': {
+      '$ref': '#/properties/volatile'
       }
     },
     {
-      "type": "Control",
-      "scope": {
-      "$ref": "#/properties/transient"
+      'type': 'Control',
+      'scope': {
+      '$ref': '#/properties/transient'
       }
     },
     {
-      "type": "Control",
-      "scope": {
-      "$ref": "#/properties/defaultValueLiteral"
+      'type': 'Control',
+      'scope': {
+      '$ref': '#/properties/defaultValueLiteral'
       }
     },
     {
-      "type": "Control",
-      "scope": {
-      "$ref": "#/properties/derived"
+      'type': 'Control',
+      'scope': {
+      '$ref': '#/properties/derived'
       }
     }
     ]
@@ -99,196 +99,193 @@ export const attributeView = {
   ]
 };
 
-export const datatype_view =
-{
-  "type": "VerticalLayout",
-  "elements": [
+export const datatypeView = {
+  'type': 'VerticalLayout',
+  'elements': [
     {
-      "type": "Control",
-      "scope": {
-        "$ref": "#/properties/name"
+      'type': 'Control',
+      'scope': {
+        '$ref': '#/properties/name'
       }
     },
     {
-      "type": "Control",
-      "scope": {
-        "$ref": "#/properties/serializable"
+      'type': 'Control',
+      'scope': {
+        '$ref': '#/properties/serializable'
       }
     },
     {
-      "type": "Control",
-      "scope": {
-        "$ref": "#/properties/instanceClassName"
+      'type': 'Control',
+      'scope': {
+        '$ref': '#/properties/instanceClassName'
       }
     }
   ]
 };
 
-export const enum_view =
-{
-  "type": "VerticalLayout",
-  "elements": [
+export const enumView = {
+  'type': 'VerticalLayout',
+  'elements': [
     {
-      "type": "Control",
-      "scope": {
-        "$ref": "#/properties/name"
+      'type': 'Control',
+      'scope': {
+        '$ref': '#/properties/name'
       }
     },
     {
-      "type": "Control",
-      "scope": {
-        "$ref": "#/properties/eLiterals"
+      'type': 'Control',
+      'scope': {
+        '$ref': '#/properties/eLiterals'
       }
     }
   ]
 };
 
-export const epackage_view =
-{
-  "type": "VerticalLayout",
-  "elements": [
+export const ePackageView = {
+  'type': 'VerticalLayout',
+  'elements': [
     {
-      "type": "Control",
-      "scope": {
-        "$ref": "#/properties/name"
+      'type': 'Control',
+      'scope': {
+        '$ref': '#/properties/name'
       }
     },
     {
-      "type": "Control",
-      "scope": {
-        "$ref": "#/properties/nsURI"
+      'type': 'Control',
+      'scope': {
+        '$ref': '#/properties/nsURI'
       }
     },
     {
-      "type": "Control",
-      "scope": {
-        "$ref": "#/properties/nsPrefix"
+      'type': 'Control',
+      'scope': {
+        '$ref': '#/properties/nsPrefix'
       }
     }
   ]
 };
 
 export const eReferenceView = {
-  "type": "VerticalLayout",
-  "elements": [
+  'type': 'VerticalLayout',
+  'elements': [
     {
-      "type": "Group",
-      "label": "Standard",
-      "elements": [
+      'type': 'Group',
+      'label': 'Standard',
+      'elements': [
         {
-          "type": "Control",
-          "scope": {
-            "$ref": "#/properties/name"
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/name'
           }
         },
         {
-          "type": "Control",
-          "scope": {
-            "$ref": "#/properties/eType"
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/eType'
           },
-          "options": {
-            "id": "eReference"
+          'options': {
+            'id': 'eReference'
           }
         },
         {
-          "type": "HorizontalLayout",
-          "elements": [
+          'type': 'HorizontalLayout',
+          'elements': [
             {
-              "type": "Control",
-              "scope": {
-                "$ref": "#/properties/lowerBound"
+              'type': 'Control',
+              'scope': {
+                '$ref': '#/properties/lowerBound'
               }
             },
             {
-              "type": "Control",
-              "scope": {
-                "$ref": "#/properties/upperBound"
+              'type': 'Control',
+              'scope': {
+                '$ref': '#/properties/upperBound'
               }
             }
           ]
         },
         {
-          "type": "Control",
-          "scope": {
-            "$ref": "#/properties/containment"
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/containment'
           }
         }
       ]
     },
     {
-      "type": "Group",
-      "label": "Advanced",
-      "elements": [
+      'type': 'Group',
+      'label': 'Advanced',
+      'elements': [
         {
-          "type": "Control",
-          "scope": {
-            "$ref": "#/properties/changeable"
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/changeable'
           }
         },
         {
-          "type": "Control",
-          "scope": {
-            "$ref": "#/properties/unsettable"
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/unsettable'
           }
         },
         {
-          "type": "Control",
-          "scope": {
-            "$ref": "#/properties/ordered"
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/ordered'
           }
         },
         {
-          "type": "Control",
-          "scope": {
-            "$ref": "#/properties/unique"
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/unique'
           }
         },
         {
-          "type": "Control",
-          "scope": {
-            "$ref": "#/properties/eOpposite"
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/eOpposite'
           }
         },
         {
-          "type": "Control",
-          "scope": {
-            "$ref": "#/properties/container"
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/container'
           }
         },
         {
-          "type": "Control",
-          "scope": {
-            "$ref": "#/properties/defaultValueLiteral"
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/defaultValueLiteral'
           }
         },
         {
-          "type": "Control",
-          "scope": {
-            "$ref": "#/properties/derived"
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/derived'
           }
         },
         {
-          "type": "Control",
-          "scope": {
-            "$ref": "#/properties/eKeys"
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/eKeys'
           }
         },
         {
-          "type": "Control",
-          "scope": {
-            "$ref": "#/properties/resolveProxies"
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/resolveProxies'
           }
         },
         {
-          "type": "Control",
-          "scope": {
-            "$ref": "#/properties/transient"
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/transient'
           }
         },
         {
-          "type": "Control",
-          "scope": {
-            "$ref": "#/properties/volatile"
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/volatile'
           }
         }
       ]
@@ -296,53 +293,53 @@ export const eReferenceView = {
   ]
 };
 
-export const eclass_view = {
-  "type": "VerticalLayout",
-  "elements": [
+export const eClassView = {
+  'type': 'VerticalLayout',
+  'elements': [
     {
-      "type": "Group",
-      "label": "Standard",
-      "elements": [
+      'type': 'Group',
+      'label': 'Standard',
+      'elements': [
         {
-          "type": "Control",
-          "scope": {
-            "$ref": "#/properties/name"
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/name'
           }
         },
         {
-          "type": "Control",
-          "scope": {
-            "$ref": "#/properties/secondName"
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/secondName'
           }
         },
         {
-          "type": "Control",
-          "scope": {
-            "$ref": "#/properties/abstract"
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/abstract'
           }
         },
         {
-          "type": "Control",
-          "scope": {
-            "$ref": "#/properties/interface"
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/interface'
           }
         }
       ]
     },
     {
-      "type": "Group",
-      "label": "Advanced",
-      "elements": [
+      'type': 'Group',
+      'label': 'Advanced',
+      'elements': [
         {
-          "type": "Control",
-          "scope": {
-            "$ref": "#/properties/instanceTypeName"
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/instanceTypeName'
           }
         },
         {
-          "type": "Control",
-          "scope": {
-            "$ref": "#/properties/eSuperTypes"
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/eSuperTypes'
           }
         }
       ]

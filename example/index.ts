@@ -1,6 +1,4 @@
 /* tslint:disable:no-invalid-this */
-import * as _ from 'lodash';
-import * as Ajv from 'ajv';
 import './ereference.renderer';
 import './eattribute.renderer';
 import './materialized.tree.renderer';
@@ -14,7 +12,6 @@ import {
 } from '../src/toolbar';
 import { applyMaterialStyle } from './material.styling';
 import { EcoreEditor } from './ecore-editor';
-declare let $;
 
 window.onload = () => {
   const editor = document.createElement('ecore-editor') as EcoreEditor;
