@@ -6,9 +6,15 @@ import './eattribute.renderer';
 import { JsonEditor } from '../src/jsoneditor';
 import { Editor } from '../src/editor';
 import { imageProvider, labelProvider, modelMapping } from './ecore-config';
-
-import {ecore_schema} from './schema';
-import {attributeView, eclass_view, datatype_view, eReferenceView, enum_view, epackage_view} from './uischema';
+import { ecore_schema } from './schema';
+import {
+  attributeView,
+  datatype_view,
+  eclass_view,
+  enum_view,
+  epackage_view,
+  eReferenceView
+} from './uischema';
 
 export class EcoreEditor extends HTMLElement implements Editor {
   private dataObject: Object;
@@ -44,12 +50,12 @@ export class EcoreEditor extends HTMLElement implements Editor {
     return undefined;
   }
   private registerUiSchemas(): void {
-      register(attributeView, 'http://www.eclipse.org/emf/2002/Ecore#//EAttribute');
-      register(eclass_view, 'http://www.eclipse.org/emf/2002/Ecore#//EClass');
-      register(datatype_view, 'http://www.eclipse.org/emf/2002/Ecore#//EDataType');
-      register(enum_view, 'http://www.eclipse.org/emf/2002/Ecore#//EEnum');
-      register(epackage_view, 'http://www.eclipse.org/emf/2002/Ecore#//EPackage');
-      register(eReferenceView, 'http://www.eclipse.org/emf/2002/Ecore#//EReference');
+    this.editor.registerDetailSchema('#attribute', attributeView);
+    this.editor.registerDetailSchema('#class', eclass_view);
+    this.editor.registerDetailSchema('#datatype', datatype_view);
+    this.editor.registerDetailSchema('#enum', enum_view);
+    this.editor.registerDetailSchema('#package', epackage_view);
+    this.editor.registerDetailSchema('#reference', eReferenceView);
   }
 
   private configureLabelMapping() {
@@ -66,7 +72,6 @@ export class EcoreEditor extends HTMLElement implements Editor {
     // };
     // this.loadFromRest('http', callback);
   }
-
 
   private render() {
     if (!this.connected || this.dataObject === undefined
@@ -88,14 +93,6 @@ export class EcoreEditor extends HTMLElement implements Editor {
     this.appendChild(this.editor);
   }
 }
-
-// method to register ui schemas
-const register = (uischema, uri) => {
-  JsonForms.uischemaRegistry.register(uischema, (schema, data) =>
-    data.eClass === uri || schema.properties !== undefined
-    && schema.properties.eClass !== undefined
-    && schema.properties.eClass.default === uri ? 2 : -1);
-};
 
 if (!customElements.get('ecore-editor')) {
   customElements.define('ecore-editor', EcoreEditor);

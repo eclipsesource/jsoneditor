@@ -2,7 +2,8 @@ import {
   JsonForms,
   JsonFormsElement,
   JsonSchema,
-  MasterDetailLayout
+  MasterDetailLayout,
+  UISchemaElement
 } from 'jsonforms';
 import { ModelMapping } from './modelmapping';
 import { Editor } from './editor';
@@ -103,6 +104,21 @@ export class JsonEditor extends HTMLElement implements Editor {
   setModelMapping(modelMapping: ModelMapping): void {
     JsonForms.modelMapping = modelMapping;
     this.masterDetail.options.modelMapping = modelMapping;
+  }
+
+  /**
+   * Registers a UI Schema for objects defined by the schema specified by the given schema id.
+   * A registered UI Schema is used when rendering a suitable object
+   * that was selected in the containment tree.
+   * The UI Schema specifies rendered controls, layouts, and additional rendering information.
+   * Thereby, the UI Schema is the same as the UI Schemata used in JsonForms 2.
+   *
+   * @param {string} schemaId The id of the type's JsonSchema that the UI Schema is registered for
+   * @param {UISchemaElement} uiSchema The UI Schema to use when rendering instances of the schema
+   */
+  registerDetailSchema(schemaId: string, uiSchema: UISchemaElement) {
+    JsonForms.uischemaRegistry.register(uiSchema, (schema, data) =>
+      schema.id !== undefined && schema.id === schemaId ? 2 : -1);
   }
 
   private render(): void {
