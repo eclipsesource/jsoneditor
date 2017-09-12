@@ -52,9 +52,9 @@ const fileInputHandler = editor => evt => {
  * Configures the given button to allow uploading data as a file to the given editor.
  *
  * @param {Editor} editor The editor for which data is uploaded
- * @param {HTMLButtonElement} uploadButton The button that will trigger the upload dialog
+ * @param {HTMLElement} uploadButton The button that will trigger the upload dialog
  */
-export const configureUploadButton = (editor: Editor, uploadButton: HTMLButtonElement) => {
+export const configureUploadButton = (editor: Editor, uploadButton: HTMLElement) => {
   // create hidden file input element
   const fileInput = document.createElement('input') as HTMLInputElement;
   fileInput.type = 'file';
@@ -71,9 +71,9 @@ export const configureUploadButton = (editor: Editor, uploadButton: HTMLButtonEl
  * Configures the given button to allow uploading data as a file from the given editor.
  *
  * @param {Editor} editor The editor for which data is uploaded
- * @param {HTMLButtonElement} downloadButton The button that will trigger the download
+ * @param {HTMLElement} downloadButton The button that will trigger the download
  */
-export const configureDownloadButton = (editor: Editor, downloadButton: HTMLButtonElement) => {
+export const configureDownloadButton = (editor: Editor, downloadButton: HTMLElement) => {
   downloadButton.onclick = () => {
     const a = document.createElement('a');
     const file = new Blob([JSON.stringify(editor.data, null, 2)], {type: 'application/json'});
@@ -128,13 +128,13 @@ export const createExportDataDialog = () => {
  * the dialog's content according to the editor's state.
  *
  * @param {Editor} editor The editor whose data is exported
- * @param {HTMLButtonElement} exportButton The button that will open the export dialog
+ * @param {HTMLElement} exportButton The button that will open the export dialog
  * @param exportDialog The export dialog that is used to display the data
  *                     {@see createExportDataDialog}
  */
 export const configureExportButton =
    (editor: Editor,
-    exportButton: HTMLButtonElement,
+    exportButton: HTMLElement,
     exportDialog) => {
       exportButton.onclick = () => {
         const json = JSON.stringify(editor.data, null, 2);
