@@ -8,6 +8,7 @@ import {
 import { ModelMapping } from './modelmapping';
 import { Editor } from './editor';
 import * as _ from 'lodash';
+import { EditorConfiguration } from './editor-config';
 
 export * from './toolbar';
 export * from './editor';
@@ -69,6 +70,42 @@ export class JsonEditor extends HTMLElement implements Editor {
    */
   get schema() {
     return this.dataSchema;
+  }
+
+  /**
+   * Configure the editor with an EditorConfiguration.
+   */
+  setConfiguration(config: EditorConfiguration) {
+    if (!_.isEmpty(config.imageMapping)) {
+      this.setImageMapping(config.imageMapping);
+    }
+    if (!_.isEmpty(config.labelMapping)) {
+      this.setLabelMapping(config.labelMapping);
+    }
+    if (!_.isEmpty(config.modelMapping)) {
+      this.setModelMapping(config.modelMapping);
+    }
+    // register all UI Schemata
+    if (!_.isEmtpy(config.detailSchemata)) {
+      Object.keys(config.detailSchemata).forEach(key => {
+        try {
+          const uiSchema = config.detailSchemata[key] as UISchemaElement;
+          this.registerDetailSchema(key, uiSchema);
+        } catch (e) {
+          console.warn(`Data registered for id '${key}' is not a valid UI Schema:`,
+                       config.detailSchemata[key]);
+        }
+      });
+    }
+    if (!_.isEmpty(config.referenceData)) {
+      // TODO handle/register/parse reference data
+    }
+    this.dataSchema = config.dataSchema;
+    if (!_.isEmpty(config.data)) {
+      this.data = config.data;
+    } else {
+      this.data = {};
+    }
   }
 
   /**
