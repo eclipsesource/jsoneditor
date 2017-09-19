@@ -1,14 +1,14 @@
-import { ModelMapping } from './modelmapping';
+import { JsonSchema, UISchemaElement } from 'jsonforms'
 
 /**
  * Contains all information needed to instantiate a customized JsonEditor.
- * TODO more precise types
  */
 export interface EditorConfiguration {
   /**
    * The schema defining the data editable in the editor.
+   * allOf, not, and oneOf constructs are not supported.
    */
-  dataSchema: Object;
+  dataSchema: JsonSchema; // TODO correct type?
 
   /**
    * The data to initialize the editor with.
@@ -25,22 +25,24 @@ export interface EditorConfiguration {
    * The UI Schema specifies rendered controls, layouts, and additional rendering information.
    * Thereby, the UI Schema is the same as the UI Schemata used in JsonForms 2.
    */
-  detailSchemata: Object; // TODO more precise type
+  detailSchemata?: {[schemaId: string]: UISchemaElement};
 
   /**
    * Configures the image mappings for the types defined in the editor's schema.
    * An image mapping maps from a schema id to the schema's image name.
    * This name is used to resolve the css style that configure a label
    * for instances of the type in the containment tree.
+   * Both the id and the name are configured as Strings.
    */
-  imageMapping?: Object;
+  imageMapping?: StringMap;
 
   /**
    * Configures the label mappings for the types defined in the editor's schema.
    * A label mapping maps from a schema id to a property defined in this schema.
    * This property defines the name of a rendered object in the containment tree.
+   * Both the id and the property name are configured as Strings.
    */
-  labelMapping?: Object;
+  labelMapping?: StringMap;
 
   /**
    * The model mapping defines mappings from a property value to a type.
@@ -56,7 +58,9 @@ export interface EditorConfiguration {
   modelMapping?: ModelMapping;
 
   /**
-   * Property names define the name of the data.
+   * Property names define the id of the data.
+   * This id is used in reference configuration to define
+   * which data is searched for reference targets.
    * The content is the actual data.
    * e.g.
    * {
@@ -64,5 +68,14 @@ export interface EditorConfiguration {
    *   'data2': { "name": "Bello", "species": "dog", "sex": "male"}
    * }
    */
-  referenceData?: Object;
+  referenceData?: { [property: string]: Object };
+}
+
+export interface StringMap {
+  [property: string]: string
+}
+
+export interface ModelMapping {
+  attribute: string;
+  mapping: StringMap;
 }

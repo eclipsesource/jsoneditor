@@ -73,9 +73,9 @@ export class JsonEditor extends HTMLElement implements Editor {
   }
 
   /**
-   * Configure the editor with an EditorConfiguration.
+   * Allows to configure the editor with a single EditorConfiguration object.
    */
-  setConfiguration(config: EditorConfiguration) {
+  configure(config: EditorConfiguration) {
     if (!_.isEmpty(config.imageMapping)) {
       this.setImageMapping(config.imageMapping);
     }
@@ -86,7 +86,7 @@ export class JsonEditor extends HTMLElement implements Editor {
       this.setModelMapping(config.modelMapping);
     }
     // register all UI Schemata
-    if (!_.isEmtpy(config.detailSchemata)) {
+    if (!_.isEmpty(config.detailSchemata)) {
       Object.keys(config.detailSchemata).forEach(key => {
         try {
           const uiSchema = config.detailSchemata[key] as UISchemaElement;

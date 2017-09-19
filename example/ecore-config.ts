@@ -1,3 +1,14 @@
+import { EditorConfiguration } from '../src/editor-config';
+import { ecoreSchema } from './schema';
+import {
+  attributeView,
+  datatypeView,
+  eClassView,
+  enumView,
+  ePackageView,
+  eReferenceView
+} from './uischema';
+
 export const labelProvider = {
   '#annotation': 'source',
   '#datatype': 'name',
@@ -38,3 +49,18 @@ export const modelMapping = {
     'http://www.eclipse.org/emf/2002/Ecore#//EAttribute': '#attribute'
   }
 };
+
+export const editorConfig: EditorConfiguration = {
+  dataSchema: ecoreSchema,
+  imageMapping: imageProvider,
+  labelMapping: labelProvider,
+  modelMapping: modelMapping,
+  detailSchemata: {
+    '#attribute': attributeView,
+    '#class': eClassView,
+    '#datatype': datatypeView,
+    '#enum': enumView,
+    '#package': ePackageView,
+    '#reference': eReferenceView,
+  }
+}
