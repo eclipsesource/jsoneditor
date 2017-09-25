@@ -1,10 +1,12 @@
 import { EditorConfiguration } from '../src/editor-config';
 import { ecoreSchema } from './schema';
 import {
+  annotationView,
   attributeView,
   datatypeView,
   eClassView,
   enumView,
+  eOperationView,
   ePackageView,
   eReferenceView
 } from './uischema';
@@ -21,14 +23,13 @@ export const labelProvider = {
   '#class': 'name',
   '#attribute': 'name',
   '#operation': 'name',
-  '#task': 'name',
-  '#user': 'name'
+  '#eliteral': 'name'
 };
 
 export const imageProvider = {
   '#datatype': 'datatype',
   '#enum': 'enum',
-  '#enumliteral': 'enumliteral',
+  '#eliteral': 'enumliteral',
   '#package': 'package',
   '#parameter': 'parameter',
   '#reference': 'reference',
@@ -56,11 +57,13 @@ export const editorConfig: EditorConfiguration = {
   labelMapping: labelProvider,
   modelMapping: modelMapping,
   detailSchemata: {
+    '#annotation': annotationView,
     '#attribute': attributeView,
     '#class': eClassView,
     '#datatype': datatypeView,
     '#enum': enumView,
+    '#operation': eOperationView,
     '#package': ePackageView,
     '#reference': eReferenceView,
   }
-}
+};
