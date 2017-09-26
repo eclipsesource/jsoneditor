@@ -1,4 +1,4 @@
-import { JsonSchema, UISchemaElement } from 'jsonforms'
+import { JsonSchema, UISchemaElement } from 'jsonforms';
 
 /**
  * Contains all information needed to instantiate a customized JsonEditor.
@@ -8,7 +8,7 @@ export interface EditorConfiguration {
    * The schema defining the data editable in the editor.
    * allOf, not, and oneOf constructs are not supported.
    */
-  dataSchema: JsonSchema; // TODO correct type?
+  dataSchema: JsonSchema;
 
   /**
    * The data to initialize the editor with.
@@ -58,8 +58,8 @@ export interface EditorConfiguration {
   modelMapping?: ModelMapping;
 
   /**
-   * Property names define the id of the data.
-   * This id is used in reference configuration to define
+   * Property names define the name of the resource.
+   * This name is used in reference configurations to define
    * which data is searched for reference targets.
    * The content is the actual data.
    * e.g.
@@ -68,11 +68,11 @@ export interface EditorConfiguration {
    *   'data2': { "name": "Bello", "species": "dog", "sex": "male"}
    * }
    */
-  referenceData?: { [property: string]: Object };
+  resources?: { [property: string]: Object };
 }
 
 export interface StringMap {
-  [property: string]: string
+  [property: string]: string;
 }
 
 export interface ModelMapping {

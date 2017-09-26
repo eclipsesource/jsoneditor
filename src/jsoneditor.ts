@@ -97,8 +97,10 @@ export class JsonEditor extends HTMLElement implements Editor {
         }
       });
     }
-    if (!_.isEmpty(config.referenceData)) {
-      // TODO handle/register/parse reference data
+    if (!_.isEmpty(config.resources)) {
+      Object.keys(config.resources).forEach(name => {
+        this.registerResource(name, config.resources[name]);
+      });
     }
     this.dataSchema = config.dataSchema;
     if (!_.isEmpty(config.data)) {
@@ -141,6 +143,15 @@ export class JsonEditor extends HTMLElement implements Editor {
   setModelMapping(modelMapping: ModelMapping): void {
     JsonForms.modelMapping = modelMapping;
     this.masterDetail.options.modelMapping = modelMapping;
+  }
+
+  /**
+   * Register a resource for the given name.
+   * The resource can be used as reference target or to specify a reference target schema.
+   */
+  registerResource(name: string, resource: Object) {
+    // Register resource and resolve JSON References/Pointers
+    JsonForms.resources.registerResource(name, resource, true);
   }
 
   /**
