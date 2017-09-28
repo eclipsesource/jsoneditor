@@ -30,13 +30,14 @@ export class EcoreEditor extends HTMLElement implements Editor {
 
       return;
     }
-    console.warn('Could not set data of ecore editor because it has not been rendered, yet.')
+    console.warn('Could not set data of ecore editor because it has not been rendered, yet.');
   }
 
   get data(): Object {
     if (this.editor !== undefined && this.editor !== null) {
       return this.editor.data;
     }
+
     return null;
   }
 

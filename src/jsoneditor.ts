@@ -5,14 +5,14 @@ import {
   MasterDetailLayout,
   UISchemaElement
 } from 'jsonforms';
-import { ModelMapping } from './modelmapping';
+import { ModelMapping } from './editor-config';
 import { Editor } from './editor';
 import * as _ from 'lodash';
 import { EditorConfiguration } from './editor-config';
 
 export * from './toolbar';
 export * from './editor';
-export * from './modelmapping';
+export * from './editor-config';
 
 /**
  * The JsonEditor renders JSON data specified by a JSON Schema.
