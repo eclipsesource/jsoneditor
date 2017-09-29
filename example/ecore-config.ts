@@ -1,3 +1,16 @@
+import { EditorConfiguration } from '../src/editor-config';
+import { ecoreSchema } from './schema';
+import {
+  annotationView,
+  attributeView,
+  datatypeView,
+  eClassView,
+  enumView,
+  eOperationView,
+  ePackageView,
+  eReferenceView
+} from './uischema';
+
 export const labelProvider = {
   '#annotation': 'source',
   '#datatype': 'name',
@@ -10,14 +23,13 @@ export const labelProvider = {
   '#class': 'name',
   '#attribute': 'name',
   '#operation': 'name',
-  '#task': 'name',
-  '#user': 'name'
+  '#eliteral': 'name'
 };
 
 export const imageProvider = {
   '#datatype': 'datatype',
   '#enum': 'enum',
-  '#enumliteral': 'enumliteral',
+  '#eliteral': 'enumliteral',
   '#package': 'package',
   '#parameter': 'parameter',
   '#reference': 'reference',
@@ -36,5 +48,22 @@ export const modelMapping = {
     'http://www.eclipse.org/emf/2002/Ecore#//EDataType': '#datatype',
     'http://www.eclipse.org/emf/2002/Ecore#//EReference': '#reference',
     'http://www.eclipse.org/emf/2002/Ecore#//EAttribute': '#attribute'
+  }
+};
+
+export const editorConfig: EditorConfiguration = {
+  dataSchema: ecoreSchema,
+  imageMapping: imageProvider,
+  labelMapping: labelProvider,
+  modelMapping: modelMapping,
+  detailSchemata: {
+    '#annotation': annotationView,
+    '#attribute': attributeView,
+    '#class': eClassView,
+    '#datatype': datatypeView,
+    '#enum': enumView,
+    '#operation': eOperationView,
+    '#package': ePackageView,
+    '#reference': eReferenceView,
   }
 };

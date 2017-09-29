@@ -29,7 +29,6 @@ window.onload = () => {
   const downloadButton = document.getElementById('download-data-button') as HTMLButtonElement;
   configureDownloadButton(editor, downloadButton);
 
-  editor.data = {};
   document.getElementById('editor').appendChild(editor);
 
   applyMaterialStyle();

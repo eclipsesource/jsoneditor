@@ -131,12 +131,6 @@ export const enumView = {
       'scope': {
         '$ref': '#/properties/name'
       }
-    },
-    {
-      'type': 'Control',
-      'scope': {
-        '$ref': '#/properties/eLiterals'
-      }
     }
   ]
 };
@@ -343,6 +337,92 @@ export const eClassView = {
           }
         }
       ]
+    }
+  ]
+};
+
+export const eOperationView = {
+  'type': 'VerticalLayout',
+  'elements': [
+    {
+      'type': 'Group',
+      'label': 'Standard',
+      'elements': [
+        {
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/name'
+          }
+        },
+        {
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/eType'
+          },
+          'options': {
+            'id': 'eReference'
+          }
+        },
+        {
+          'type': 'HorizontalLayout',
+          'elements': [
+            {
+              'type': 'Control',
+              'scope': {
+                '$ref': '#/properties/lowerBound'
+              }
+            },
+            {
+              'type': 'Control',
+              'scope': {
+                '$ref': '#/properties/upperBound'
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      'type': 'Group',
+      'label': 'Advanced',
+      'elements': [
+        {
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/ordered'
+          }
+        },
+        {
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/required'
+          }
+        },
+        {
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/unique'
+          }
+        },
+        {
+          'type': 'Control',
+          'scope': {
+            '$ref': '#/properties/many'
+          }
+        }
+      ]
+    }
+  ]
+};
+
+export const annotationView = {
+  'type': 'VerticalLayout',
+  'elements': [
+    {
+      'type': 'Control',
+      'scope': {
+        '$ref': '#/properties/source'
+      }
     }
   ]
 };

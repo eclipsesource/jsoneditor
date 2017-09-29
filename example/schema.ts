@@ -1,3 +1,4 @@
+/* tslint:disable:max-file-line-count */
 export const ecoreSchema = {
   'definitions': {
     'eLiterals': {
@@ -11,9 +12,11 @@ export const ecoreSchema = {
           'type': 'string'
         },
         'value': {
-          'type': 'integer'
+          'type': 'integer',
+          'default': 0
         }
-      }
+      },
+      'required': ['name']
     },
     'eClassifier': {
       'anyOf': [
@@ -43,7 +46,8 @@ export const ecoreSchema = {
       'type': 'object',
       'properties': {
         'eClass': {
-          'type': 'string'
+          'type': 'string',
+          'default': 'http://www.eclipse.org/emf/2002/Ecore#//EAnnotation'
         },
         '_id': {
           'type': 'string'
@@ -93,6 +97,7 @@ export const ecoreSchema = {
           }
         }
       },
+      'required': ['name'],
       'additionalProperties': false
     },
     'datatype': {
@@ -125,6 +130,7 @@ export const ecoreSchema = {
           }
         }
       },
+      'required': ['name'],
       'additionalProperties': false
     },
     'eclass': {
@@ -156,6 +162,10 @@ export const ecoreSchema = {
         'interface': {
           'type': 'boolean'
         },
+        'eSuperTypes': {
+          'type': 'array',
+          'items': { 'type': 'string' }
+        },
         'eStructuralFeatures': {
           'type': 'array',
           'items': {
@@ -168,139 +178,7 @@ export const ecoreSchema = {
         'eOperations': {
           'type': 'array',
           'items': {
-            'id': '#operation',
-            'type': 'object',
-            'properties': {
-              'eClass': {
-                'type': 'string'
-              },
-              '_id': {
-                'type': 'string'
-              },
-              'name': {
-                'type': 'string'
-              },
-              'ordered': {
-                'type': 'boolean'
-              },
-              'unique': {
-                'type': 'boolean'
-              },
-              'lowerBound': {
-                'type': 'integer'
-              },
-              'upperBound': {
-                'type': 'integer'
-              },
-              'many': {
-                'type': 'boolean'
-              },
-              'required': {
-                'type': 'boolean'
-              },
-              'eType': {
-                'type': 'string'
-              },
-              'eTypeParameters': {
-                'type': 'array',
-                'items': {
-                  'id': '#typeparameter',
-                  'type': 'object',
-                  'properties': {
-                    'eClass': {
-                      'type': 'string'
-                    },
-                    '_id': {
-                      'type': 'string'
-                    },
-                    'name': {
-                      'type': 'string'
-                    }
-                  },
-                  'additionalProperties': false
-                }
-              },
-              'eParameters': {
-                'type': 'array',
-                'items': {
-                  'id': '#parameter',
-                  'type': 'object',
-                  'properties': {
-                    'eClass': {
-                      'type': 'string'
-                    },
-                    '_id': {
-                      'type': 'string'
-                    },
-                    'name': {
-                      'type': 'string'
-                    },
-                    'ordered': {
-                      'type': 'boolean'
-                    },
-                    'unique': {
-                      'type': 'boolean'
-                    },
-                    'lowerBound': {
-                      'type': 'integer'
-                    },
-                    'upperBound': {
-                      'type': 'integer'
-                    },
-                    'many': {
-                      'type': 'boolean'
-                    },
-                    'required': {
-                      'type': 'boolean'
-                    },
-                    'eType': {
-                      'type': 'string'
-                    },
-                    'eGenericType': {
-                      'type': 'object',
-                      'properties': {
-                        'eClass': {
-                          'type': 'string'
-                        },
-                        '_id': {
-                          'type': 'string'
-                        },
-                        'eClassifier': {
-                          'type': 'object',
-                          'properties': {
-                            'eClass': {
-                              'type': 'string'
-                            },
-                            '$ref': {
-                              'type': 'string'
-                            }
-                          },
-                          'additionalProperties': false
-                        },
-                        'eTypeArguments': {
-                          'type': 'array',
-                          'items': {
-                            'type': 'object',
-                            'properties': {
-                              'eClass': {
-                                'type': 'string'
-                              },
-                              '_id': {
-                                'type': 'string'
-                              }
-                            },
-                            'additionalProperties': false
-                          }
-                        }
-                      },
-                      'additionalProperties': false
-                    }
-                  },
-                  'additionalProperties': false
-                }
-              }
-            },
-            'additionalProperties': false
+            '$ref': '#/definitions/operation'
           }
         },
         'eAnnotations': {
@@ -310,6 +188,7 @@ export const ecoreSchema = {
           }
         }
       },
+      'required': ['name'],
       'additionalProperties': false
     },
     'attribute': {
@@ -379,6 +258,7 @@ export const ecoreSchema = {
           '$ref': '#/definitions/datatype'
         }
       }],
+      'required': ['name', 'eType'],
       'additionalProperties': false
     },
     'reference': {
@@ -457,6 +337,151 @@ export const ecoreSchema = {
           '$ref': '#/definitions/eclass'
         }
       }],
+      'required': ['name', 'eType'],
+      'additionalProperties': false
+    },
+    'operation': {
+      'id': '#operation',
+      'type': 'object',
+      'properties': {
+        'eClass': {
+          'type': 'string',
+          'default': 'http://www.eclipse.org/emf/2002/Ecore#//EOperation'
+        },
+        '_id': {
+          'type': 'string'
+        },
+        'name': {
+          'type': 'string'
+        },
+        'ordered': {
+          'type': 'boolean'
+        },
+        'unique': {
+          'type': 'boolean'
+        },
+        'lowerBound': {
+          'type': 'integer'
+        },
+        'upperBound': {
+          'type': 'integer'
+        },
+        'many': {
+          'type': 'boolean'
+        },
+        'required': {
+          'type': 'boolean'
+        },
+        'eType': {
+          'type': 'string'
+        },
+        'eTypeParameters': {
+          'type': 'array',
+          'items': {
+            'id': '#typeparameter',
+            'type': 'object',
+            'properties': {
+              'eClass': {
+                'type': 'string'
+              },
+              '_id': {
+                'type': 'string'
+              },
+              'name': {
+                'type': 'string'
+              }
+            },
+            'additionalProperties': false
+          }
+        },
+        'eParameters': {
+          'type': 'array',
+          'items': {
+            'id': '#parameter',
+            'type': 'object',
+            'properties': {
+              'eClass': {
+                'type': 'string'
+              },
+              '_id': {
+                'type': 'string'
+              },
+              'name': {
+                'type': 'string'
+              },
+              'ordered': {
+                'type': 'boolean'
+              },
+              'unique': {
+                'type': 'boolean'
+              },
+              'lowerBound': {
+                'type': 'integer'
+              },
+              'upperBound': {
+                'type': 'integer'
+              },
+              'many': {
+                'type': 'boolean'
+              },
+              'required': {
+                'type': 'boolean'
+              },
+              'eType': {
+                'type': 'string'
+              },
+              'eGenericType': {
+                'type': 'object',
+                'properties': {
+                  'eClass': {
+                    'type': 'string'
+                  },
+                  '_id': {
+                    'type': 'string'
+                  },
+                  'eClassifier': {
+                    'type': 'object',
+                    'properties': {
+                      'eClass': {
+                        'type': 'string'
+                      },
+                      '$ref': {
+                        'type': 'string'
+                      }
+                    },
+                    'additionalProperties': false
+                  },
+                  'eTypeArguments': {
+                    'type': 'array',
+                    'items': {
+                      'type': 'object',
+                      'properties': {
+                        'eClass': {
+                          'type': 'string'
+                        },
+                        '_id': {
+                          'type': 'string'
+                        }
+                      },
+                      'additionalProperties': false
+                    }
+                  }
+                },
+                'additionalProperties': false
+              }
+            },
+            'additionalProperties': false
+          }
+        }
+      },
+      'links': [{
+        'rel': 'full',
+        'href': '#/eClassifiers/{eType}',
+        'targetSchema': {
+          '$ref': '#/definitions/eclass'
+        }
+      }],
+      'required': ['name'],
       'additionalProperties': false
     }
   },
@@ -490,5 +515,6 @@ export const ecoreSchema = {
       }
     }
   },
+  'required': ['name', 'nsURI', 'nsPrefix'],
   'additionalProperties': false
 };

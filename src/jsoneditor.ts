@@ -5,13 +5,14 @@ import {
   MasterDetailLayout,
   UISchemaElement
 } from 'jsonforms';
-import { ModelMapping } from './modelmapping';
+import { ModelMapping } from './editor-config';
 import { Editor } from './editor';
 import * as _ from 'lodash';
+import { EditorConfiguration } from './editor-config';
 
 export * from './toolbar';
 export * from './editor';
-export * from './modelmapping';
+export * from './editor-config';
 
 /**
  * The JsonEditor renders JSON data specified by a JSON Schema.
@@ -72,6 +73,44 @@ export class JsonEditor extends HTMLElement implements Editor {
   }
 
   /**
+   * Allows to configure the editor with a single EditorConfiguration object.
+   */
+  configure(config: EditorConfiguration) {
+    if (!_.isEmpty(config.imageMapping)) {
+      this.setImageMapping(config.imageMapping);
+    }
+    if (!_.isEmpty(config.labelMapping)) {
+      this.setLabelMapping(config.labelMapping);
+    }
+    if (!_.isEmpty(config.modelMapping)) {
+      this.setModelMapping(config.modelMapping);
+    }
+    // register all UI Schemata
+    if (!_.isEmpty(config.detailSchemata)) {
+      Object.keys(config.detailSchemata).forEach(key => {
+        try {
+          const uiSchema = config.detailSchemata[key] as UISchemaElement;
+          this.registerDetailSchema(key, uiSchema);
+        } catch (e) {
+          console.warn(`Data registered for id '${key}' is not a valid UI Schema:`,
+                       config.detailSchemata[key]);
+        }
+      });
+    }
+    if (!_.isEmpty(config.resources)) {
+      Object.keys(config.resources).forEach(name => {
+        this.registerResource(name, config.resources[name]);
+      });
+    }
+    this.dataSchema = config.dataSchema;
+    if (!_.isEmpty(config.data)) {
+      this.data = config.data;
+    } else {
+      this.data = {};
+    }
+  }
+
+  /**
    * Configures the label mappings for the types defined in the editor's schema.
    * A label mapping maps from a schema id to a property defined in this schema.
    * This property defines the name of a rendered object in the containment tree.
@@ -104,6 +143,19 @@ export class JsonEditor extends HTMLElement implements Editor {
   setModelMapping(modelMapping: ModelMapping): void {
     JsonForms.modelMapping = modelMapping;
     this.masterDetail.options.modelMapping = modelMapping;
+  }
+
+  /**
+   * Register a resource for the given name.
+   * The resource can be used as reference target or to specify a reference target schema.
+   *
+   * @param name The name of the resource to register
+   * @param resource The resource data
+   * @param resolve Whether JSON References and Pointers in the resource should be resolved
+   */
+  registerResource(name: string, resource: Object, resolve = true) {
+    // Register resource and resolve JSON References/Pointers
+    JsonForms.resources.registerResource(name, resource, resolve);
   }
 
   /**
