@@ -148,10 +148,14 @@ export class JsonEditor extends HTMLElement implements Editor {
   /**
    * Register a resource for the given name.
    * The resource can be used as reference target or to specify a reference target schema.
+   *
+   * @param name The name of the resource to register
+   * @param resource The resource data
+   * @param resolve Whether JSON References and Pointers in the resource should be resolved
    */
-  registerResource(name: string, resource: Object) {
+  registerResource(name: string, resource: Object, resolve = true) {
     // Register resource and resolve JSON References/Pointers
-    JsonForms.resources.registerResource(name, resource, true);
+    JsonForms.resources.registerResource(name, resource, resolve);
   }
 
   /**
